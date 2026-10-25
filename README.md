@@ -27,5 +27,8 @@ Writeups, attack technique notes, and defensive notes from CTF challenges.
 | HTB | try-out | [getting-started](writeups/htb/try-out/pwn/getting-started/README.md) | pwn | solved |
 | HTB | try-out | [labyrinth](writeups/htb/try-out/pwn/labyrinth/README.md) | pwn | solved |
 | HTB | try-out | [void](writeups/htb/try-out/pwn/void/README.md) | pwn | solved |
+| HTB | try-out | [jailbreak](writeups/htb/try-out/web/jailbreak/README.md) | web | solved |
+| HTB | try-out | [timekorp](writeups/htb/try-out/web/timekorp/README.md) | web | solved |
+| HTB | try-out | [flag-command](writeups/htb/try-out/web/flag-command/README.md) | web | solved |
 | HTB | try-out | [an-unusual-sighting](writeups/htb/try-out/forensics/an-unusual-sighting/README.md) | forensics | solved |
 | HTB | try-out | [silicon-data-sleuthing](writeups/htb/try-out/forensics/silicon-data-sleuthing/README.md) | forensics | solved |
