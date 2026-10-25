@@ -1,0 +1,14 @@
+# Private: challenge sources and flags. Never publish.
+private/
+
+# Generated
+__pycache__/
+*.pyc
+*.tgz
+
+# Secrets and local state
+.env
+.DS_Store
+
+# Flags anywhere in the tree
+*flag*.txt
