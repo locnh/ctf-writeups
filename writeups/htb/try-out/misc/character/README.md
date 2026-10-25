@@ -9,7 +9,7 @@ status: solved
 
 # misc/character
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{tH15_1s_4_r3aLly_l0nG_fL4g_i_h0p3_f0r_REDACTED}`
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`
 

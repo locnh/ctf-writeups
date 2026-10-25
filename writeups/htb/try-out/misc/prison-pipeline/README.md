@@ -9,7 +9,7 @@ status: solved
 
 # Write-up: misc_prison_pipeline
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{pr1s0n_br34k_w1th_supply_ch41n!_REDACTED}`
 
 **Target:** `<target>` (HTB challenge instance)
 **Script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port> --version 1.0.5`

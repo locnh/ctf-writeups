@@ -9,7 +9,7 @@ status: solved
 
 # pwn/getting-started
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{b0f_tut0r14l5_4r3_REDACTED}`
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port>`.
 

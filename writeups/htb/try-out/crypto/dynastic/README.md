@@ -9,7 +9,7 @@ status: solved
 
 # crypto/dynastic
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{DID_YOU_KNOW_ABOUT_THE_TRITHEMIUS_CIPHER?!_REDACTED}`
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <output.txt>`. The script works offline.
 

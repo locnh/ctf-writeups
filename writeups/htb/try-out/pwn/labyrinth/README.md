@@ -9,7 +9,7 @@ status: solved
 
 # pwn/labyrinth
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{3sc4p3_fr0m_REDACTED}`
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port>`.
 

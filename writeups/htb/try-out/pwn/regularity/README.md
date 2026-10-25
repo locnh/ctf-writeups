@@ -9,7 +9,7 @@ status: solved
 
 # pwn/regularity
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{juMp1nG_w1tH_tH3_r3gIsT3rS?_REDACTED}`
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port>`. The shellcode source is in `artifacts/shellcode.s`.
 

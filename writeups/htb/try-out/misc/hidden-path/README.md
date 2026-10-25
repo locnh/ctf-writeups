@@ -9,7 +9,7 @@ status: solved
 
 # misc/hidden-path
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{1nvi5IBl3_cH4r4cT3rS_n0t_sO_v1SIbL3_REDACTED}`
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`
 

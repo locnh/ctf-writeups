@@ -9,7 +9,7 @@ status: solved
 
 # misc/locked-away
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{bYp4sSeD_tH3_fIlT3r5?_aLw4Ys_b3_c4RefUL!_REDACTED}`
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`
 

@@ -9,7 +9,7 @@ status: solved
 
 # pwn/void
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{pwnt00l5_h0mep4g3_15_REDACTED}`
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port> [fd]`. The default `fd` is 5, which is the descriptor the server's `open` returns.
 

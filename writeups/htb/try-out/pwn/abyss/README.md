@@ -9,7 +9,7 @@ status: solved
 
 # pwn/abyss
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{sH0u1D_h4v3-NU11-t3rmIn4tEd_buf!_REDACTED}`
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port>`.
 

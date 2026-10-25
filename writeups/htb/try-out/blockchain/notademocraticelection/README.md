@@ -9,7 +9,7 @@ status: solved
 
 # blockchain/notademocraticelection
 
-**Flag:** `HTB{REDACTED}`
+**Flag:** `HTB{h4sh_c0ll1s10n_t0_br1ng_REDACTED}`
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <info_port> <rpc_port>`. The challenge has two ports, so the usual `<target_ip> <target_port>` form does not apply. The info port returns the key and the contract address, and the RPC port is an Anvil node.
 
@@ -46,7 +46,7 @@ The solve script runs steps 1 to 5 with `cast send` from Foundry. The `cast send
 - Before the attack, `winner()` was empty and `getVotesCount(CIM)` was 0. The player address had 1 ETH.
 - Each deposit cost about 50k gas and each vote about 59k gas. The whole attack needs no ether beyond gas, because the weight comes from the setup deposit.
 - Every transaction succeeded, and `VoterDeposited` and `Voted` events were emitted for each one.
-- The info port returned the flag after the last vote: `HTB{REDACTED}`.
+- The info port returned the flag after the last vote: `HTB{h4sh_c0ll1s10n_t0_br1ng_REDACTED}`.
 - After the run, the RPC node reported that the contract had no code at the target address. The instance seems to have been reset after the flag was issued, so the on-chain state could not be checked again. The flag from the info port is the proof of the solve.
 
 ## Problems hit
