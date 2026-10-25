@@ -26,3 +26,4 @@ Writeups, attack technique notes, and defensive notes from CTF challenges.
 | HTB | try-out | [abyss](writeups/htb/try-out/pwn/abyss/README.md) | pwn | solved |
 | HTB | try-out | [getting-started](writeups/htb/try-out/pwn/getting-started/README.md) | pwn | solved |
 | HTB | try-out | [labyrinth](writeups/htb/try-out/pwn/labyrinth/README.md) | pwn | solved |
+| HTB | try-out | [void](writeups/htb/try-out/pwn/void/README.md) | pwn | solved |
