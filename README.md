@@ -20,4 +20,4 @@ Writeups, attack technique notes, and defensive notes from CTF challenges.
 | HTB | try-out | [misc-character](writeups/htb/try-out/misc-character/README.md) | misc | solved |
 | HTB | try-out | [misc-chrono-mind](writeups/htb/try-out/misc-chrono-mind/README.md) | misc | pending |
 | HTB | try-out | [misc-hidden-path](writeups/htb/try-out/misc-hidden-path/README.md) | misc | pending |
-| HTB | try-out | [misc-stop-drop-roll](writeups/htb/try-out/misc-stop-drop-roll/README.md) | misc | pending |
+| HTB | try-out | [misc-stop-drop-roll](writeups/htb/try-out/misc-stop-drop-roll/README.md) | misc | solved |
