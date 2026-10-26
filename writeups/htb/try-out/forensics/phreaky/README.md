@@ -12,6 +12,8 @@ difficulty: 2
 
 **Difficulty:** 🌶️🌶️ (2/5)
 
+**Solve script:** `artifacts/solve.py`, run with `python3 solve.py <phreaky.pcap> [output_dir]`. The pcap is the file from the challenge zip. It uses only the standard library.
+
 ## Summary
 
 The input is one packet capture, `phreaky.pcap`, in a zip protected with the usual HTB forensics password. Most of the traffic is noise: DNS lookups and HTTP to Ubuntu mirrors, plus IGMP. The interesting part is SMTP traffic on port 25 from `192.168.68.108` (`caleb@thephreaks.com`) to `resources@thetalents.com`.
