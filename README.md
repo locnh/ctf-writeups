@@ -14,7 +14,6 @@ Writeups, attack technique notes, and defensive notes from CTF challenges.
 |---|---|---|---|---|
 | HTB | try-out | [prison-pipeline](writeups/htb/try-out/misc/prison-pipeline/README.md) | misc | solved |
 | HTB | try-out | [locked-away](writeups/htb/try-out/misc/locked-away/README.md) | misc | solved |
-| HTB | try-out | [blessed](writeups/htb/try-out/crypto/blessed/README.md) | crypto | pending |
 | HTB | try-out | [dynastic](writeups/htb/try-out/crypto/dynastic/README.md) | crypto | solved |
 | HTB | try-out | [notademocraticelection](writeups/htb/try-out/blockchain/notademocraticelection/README.md) | blockchain | solved |
 | HTB | try-out | [dynamic-paths](writeups/htb/try-out/code/dynamic-paths/README.md) | code | solved |
