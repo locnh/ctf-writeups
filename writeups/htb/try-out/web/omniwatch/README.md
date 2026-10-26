@@ -8,13 +8,9 @@ status: solved
 difficulty: 4
 ---
 
-# web/omniwatch
-
-**Flag:** `HTB{h3110_41w4y5_i_s3e_y0u4nd_1m_w4tch1ng_REDACTED}`
+# OmniWatch
 
 **Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
-
-**Solve script:** `artifacts/solve.py` with `artifacts/payload.js` in the same directory. Run `python3 solve.py [seconds]`. The script hard-codes the target `http://154.57.164.81:35113`, so change `BASE` for another instance. It keeps poisoning the cache for `seconds` (default 180) and prints each step as the bot reports it. It stops once it sees the flag.
 
 ## Summary
 
@@ -45,6 +41,12 @@ Relevant code (`src/challenge`):
 7. **Admin.** The script sets the forged cookie and fetches `/controller/admin`. `/readflag` prints the flag into the page.
 8. **Exfil.** Each step sends a message back as `GET /oracle/<msg>/1%0d%0aCacheKey:%20enable` with `CacheKey: omni-<tag>`. The poller reads `omni-S0`..`omni-F`.
 
+## Steps
+
+1. Artifacts are in `artifacts/`: `solve.py` and `payload.js`, which must sit in the same directory. Run `python3 solve.py [seconds]` (default 180). The target is hard-coded as `BASE` in `solve.py`, so change it for another instance.
+2. The script keeps poisoning the cache and polls each step's key. It prints each step as the bot reports it, and stops once it sees the flag.
+3. Run `python3 solve.py 240` and watch the output. The `F` line contains the flag once the bot finishes. Flag: `HTB{h3110_41w4y5_i_s3e_y0u4nd_1m_w4tch1ng_REDACTED}`.
+
 ## Problems hit
 
 - **Slashes in the injected header.** A raw `/` in `Content-Type: text/html` splits the route, so the request returns 404. The header value must be `text%2Fhtml`.
@@ -52,7 +54,18 @@ Relevant code (`src/challenge`):
 - **Missing a step result.** The exfil cache keeps only the last object per key. Using one key per step made the progress visible.
 - **Instance reachability.** The instance stopped answering for a while during testing. It came back after a short wait.
 
-## Steps
+## Defense
 
-1. Run `python3 solve.py 240`.
-2. Watch the step output. The `F` line contains the `HTB{...}` flag once the bot finishes.
+- Reject CR and LF in any value that goes into a response header. Upgrade the HTTP library, or validate header values before they are set.
+- Do not reflect user input into HTML responses served from the same origin as the app. Set `Content-Type` explicitly, and send a strict `Content-Security-Policy`.
+- Configure Varnish to key on the full request (URL, host, and relevant headers), and never let a client set a header that controls caching. Remove `CacheKey` handling from the backend response.
+- Mark the session cookie `HttpOnly` so scripts on the page cannot read it.
+- Build file paths with a fixed base directory and reject `..` or absolute paths. `os.path.join` with a user value is not a sandbox.
+- Use parameterized queries, and do not run multi-statement queries from user input. Use a DB user without write access to the signature table.
+
+## Lessons
+
+- A cache is an authorization boundary: if the cache key misses part of the request, one user's response can be served to another.
+- Injection points that look harmless in one service (a debug header in the oracle) can become the first step of a chain across several services.
+- A headless browser with a logged-in session is an oracle for the attacker. The bot's own requests can carry the attacker's payload and return the result through a side channel.
+- Test with the same tools and timing as the target. Chrome's cookie handling and Varnish's cache rules caused most of the failed runs.
