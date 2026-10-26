@@ -12,6 +12,8 @@ difficulty: <1-5>
 
 **Difficulty:** <🌶️ x N> (N/5)
 
+**Solve script:** <`artifacts/solve.py` and how to run it, or "none (manual steps)">
+
 ## Summary
 
 ## Attack chain
