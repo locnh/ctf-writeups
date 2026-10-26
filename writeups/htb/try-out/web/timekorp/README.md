@@ -5,11 +5,14 @@ event: try-out
 category: web
 tags: [command-injection, php, shell-quoting, exec]
 status: solved
+difficulty: 2
 ---
 
 # web/timekorp
 
 **Flag:** `HTB{t1m3_f0r_th3_ult1m4t3_pwn4g3_REDACTED}`
+
+**Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`
 
