@@ -56,3 +56,4 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 | HTB | try-out | [omniwatch](writeups/htb/try-out/web/omniwatch/README.md) | web | 🌶️🌶️🌶️🌶️ (4/5) | 🏁 | 🤖 |
 | HTB | try-out | [an-unusual-sighting](writeups/htb/try-out/forensics/an-unusual-sighting/README.md) | forensics | 🌶️🌶️ (2/5) | 🏁 | 💪 |
 | HTB | try-out | [silicon-data-sleuthing](writeups/htb/try-out/forensics/silicon-data-sleuthing/README.md) | forensics | 🌶️🌶️🌶️🌶️ (4/5) | 🏁 | 💪 |
+| HTB | try-out | [phreaky](writeups/htb/try-out/forensics/phreaky/README.md) | forensics | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
