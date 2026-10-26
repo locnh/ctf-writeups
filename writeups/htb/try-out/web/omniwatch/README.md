@@ -43,9 +43,29 @@ Relevant code (`src/challenge`):
 
 ## Steps
 
-1. Artifacts are in `artifacts/`: `solve.py` and `payload.js`, which must sit in the same directory. Run `python3 solve.py <target_ip> <target_port> [seconds]` (seconds defaults to 180).
-2. The script keeps poisoning the cache and polls each step's key. It prints each step as the bot reports it, and stops once it sees the flag.
-3. Run `python3 solve.py <target_ip> <target_port> 240` and watch the output. The `F` line contains the flag once the bot finishes. Flag: `HTB{h3110_41w4y5_i_s3e_y0u4nd_1m_w4tch1ng_REDACTED}`.
+1. Artifacts are in `artifacts/`: `solve.py` and `payload.js`, which must sit in the same directory. Requires Python 3 and the `requests` package (`pip install requests`).
+2. Run the solver with the target IP, port, and an optional time limit in seconds (default 180):
+
+   ```
+   python3 solve.py <target_ip> <target_port> [seconds]
+   ```
+
+3. The script keeps poisoning the cache and polls each step's key. It prints a line for each step the bot reports, and stops once it sees the flag. The bot runs every 30 seconds, so allow at least one full cycle. A 240-second run is enough in practice.
+
+Sample output (flag masked):
+
+```
+$ python3 solve.py 154.57.164.81 35113 240
+S0 -> S0 200
+S1 -> S1 status=200
+S2 -> S2 len=16
+S3 -> S3 signed
+S4 -> S4 inserted
+F -> HTB{h3110_41w4y5_i_s3e_y0u4nd_1m_w4tch1ng_REDACTED}
+done {'S0': 'S0 200', 'S1': 'S1 status=200', 'S2': 'S2 len=16', 'S3': 'S3 signed', 'S4': 'S4 inserted', 'F': 'HTB{h3110_41w4y5_i_s3e_y0u4nd_1m_w4tch1ng_REDACTED}'}
+```
+
+Each step line shows the bot's progress: `S0` the payload started, `S1` the firmware read returned, `S2` the secret length, `S3` the admin token was signed, `S4` the signature row was inserted, and `F` the flag. If the run stops at a step before `F`, the bot did not reach the next step, so check the step lines first.
 
 ## Problems hit
 
