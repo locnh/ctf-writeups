@@ -5,11 +5,14 @@ event: try-out
 category: forensics
 tags: [log-analysis, ssh, bash-history, timeline, sshd, incident-response]
 status: solved
+difficulty: 2
 ---
 
 # forensics/an-unusual-sighting
 
 **Flag:** `HTB{4n_unusual_s1ght1ng_1n_SSH_REDACTED}`
+
+**Difficulty:** 🌶️🌶️ (2/5)
 
 **Input:** `bash_history.txt` and `sshd.log`, in a zip archive. No binaries, no network capture.
 

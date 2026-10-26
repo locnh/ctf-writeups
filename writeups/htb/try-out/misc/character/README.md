@@ -5,11 +5,14 @@ event: try-out
 category: misc
 tags: [oracle, information-disclosure, scripting]
 status: solved
+difficulty: 2
 ---
 
 # misc/character
 
 **Flag:** `HTB{tH15_1s_4_r3aLly_l0nG_fL4g_i_h0p3_f0r_REDACTED}`
+
+**Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`
 

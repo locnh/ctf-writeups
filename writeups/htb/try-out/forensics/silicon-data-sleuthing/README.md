@@ -5,11 +5,14 @@ event: try-out
 category: forensics
 tags: [firmware, openwrt, squashfs, jffs2, overlayfs, zstd, sysupgrade, crc32, flash-dump]
 status: solved
+difficulty: 4
 ---
 
 # forensics/silicon-data-sleuthing
 
 **Flag:** `HTB{Y0u'v3_m4st3r3d_0p3nWRT_d4t4_3xtr4ct10n!!_REDACTED}`
+
+**Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
 
 **Input:** `chal_router_dump.bin`, a 16 MB raw flash dump of an OpenWrt router, in a zip archive.
 

@@ -5,11 +5,14 @@ event: try-out
 category: misc
 tags: [path-traversal, llm, prompt-injection, secret-leak, rce]
 status: solved
+difficulty: 4
 ---
 
 # misc/chrono-mind
 
 **Flag:** `HTB{1nj3c73d_c0n73x7_c0p1l07_3x3cu73_REDACTED}`
+
+**Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip>:<target_port>`
 

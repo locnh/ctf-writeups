@@ -5,11 +5,14 @@ event: try-out
 category: web
 tags: [request-smuggling, pipelining, ssrf, command-injection, blind-oracle, nip-io]
 status: solved
+difficulty: 4
 ---
 
 # web/htb-proxy
 
 **Flag:** `HTB{r3inv3nting_th3_wh331_c4n_cr34t3_h34dach35_REDACTED}`
+
+**Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`. It takes about one minute.
 

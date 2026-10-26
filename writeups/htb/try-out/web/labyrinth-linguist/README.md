@@ -5,11 +5,14 @@ event: try-out
 category: web
 tags: [ssti, velocity, java, spring-boot, rce]
 status: solved
+difficulty: 3
 ---
 
 # web/labyrinth-linguist
 
 **Flag:** `HTB{f13ry_t3mpl4t35_fr0m_th3_d3pth5!!_REDACTED}`
+
+**Difficulty:** 🌶️🌶️🌶️ (3/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`
 
