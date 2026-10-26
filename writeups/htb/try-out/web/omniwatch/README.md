@@ -43,9 +43,9 @@ Relevant code (`src/challenge`):
 
 ## Steps
 
-1. Artifacts are in `artifacts/`: `solve.py` and `payload.js`, which must sit in the same directory. Run `python3 solve.py [seconds]` (default 180). The target is hard-coded as `BASE` in `solve.py`, so change it for another instance.
+1. Artifacts are in `artifacts/`: `solve.py` and `payload.js`, which must sit in the same directory. Run `python3 solve.py <target_ip> <target_port> [seconds]` (seconds defaults to 180).
 2. The script keeps poisoning the cache and polls each step's key. It prints each step as the bot reports it, and stops once it sees the flag.
-3. Run `python3 solve.py 240` and watch the output. The `F` line contains the flag once the bot finishes. Flag: `HTB{h3110_41w4y5_i_s3e_y0u4nd_1m_w4tch1ng_REDACTED}`.
+3. Run `python3 solve.py <target_ip> <target_port> 240` and watch the output. The `F` line contains the flag once the bot finishes. Flag: `HTB{h3110_41w4y5_i_s3e_y0u4nd_1m_w4tch1ng_REDACTED}`.
 
 ## Problems hit
 

