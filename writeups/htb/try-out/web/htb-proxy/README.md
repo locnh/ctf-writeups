@@ -24,7 +24,7 @@ The proxy checks only the first request. It parses the first request line and bo
 
 The backend returns no output, so the injection is blind. The exit status of `ip` decides the response code (200 on success, 401 on error), and that is enough to read the flag one bit at a time.
 
-## Source review
+Relevant code:
 
 The archive is password-protected with the standard HTB password, `hackthebox`.
 
@@ -43,6 +43,15 @@ The archive is password-protected with the standard HTB password, `hackthebox`.
 
 ## Attack chain
 
+Observations from testing:
+
+- The backend is reached only through the pipelined request, not through a direct request. Sending the same `/flushInterface` request on its own gets `Not Allowed` from the proxy.
+- `Connection: close` on R2 matters for speed. Without it, Node keeps the connection open for 5 seconds (its keep-alive timeout), and the proxy waits for that before it replies. Each oracle check then took about 5 seconds. With `Connection: close`, each check takes about 0.7 seconds.
+- `ip` errors go to stderr, and `flush` treats any stderr as failure. The injected command must therefore keep stderr empty when it succeeds.
+- The payloads only read files. Nothing on the target was changed.
+
+Attack steps:
+
 1. **Reach the backend.** The proxy blocks `10.` and `127.`, but `10-244-14-223.nip.io` contains neither `10.` nor a loopback address. It resolves to `10.244.14.223`, which is the backend container.
 2. **Smuggle the route.** Send R1, a `POST /getAddresses` with a 1-byte body that passes the checks. End R1 with `\r\n\r\n`, then send R2, a `POST /flushInterface` with the injection in its body. The proxy checks only R1. Node processes both requests on the same connection.
 3. **Inject.** The `interface` value is `x\t2>/dev/null;<cmd>||echo\tx>&2`:
@@ -54,14 +63,7 @@ The archive is password-protected with the standard HTB password, `hackthebox`.
 ## Steps
 
 1. Run `solve.py`. It reads the backend IP from `/server-status`, builds the nip.io hostname from it, then extracts up to 80 bytes of `/flag.txt` with eight parallel workers. Requests that time out are retried, so a timeout is never read as a false answer.
-2. The flag is printed as `[+] Flag:`.
-
-## Observations
-
-- The backend is reached only through the pipelined request, not through a direct request. Sending the same `/flushInterface` request on its own gets `Not Allowed` from the proxy.
-- `Connection: close` on R2 matters for speed. Without it, Node keeps the connection open for 5 seconds (its keep-alive timeout), and the proxy waits for that before it replies. Each oracle check then took about 5 seconds. With `Connection: close`, each check takes about 0.7 seconds.
-- `ip` errors go to stderr, and `flush` treats any stderr as failure. The injected command must therefore keep stderr empty when it succeeds.
-- The payloads only read files. Nothing on the target was changed.
+2. The flag is printed as `[+] Flag:`: `HTB{r3inv3nting_th3_wh331_c4n_cr34t3_h34dach35_REDACTED}`.
 
 ## Problems hit
 

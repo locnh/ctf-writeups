@@ -22,9 +22,7 @@ The target is a Pip-Boy themed Python web app served by Werkzeug 3.0.3 on Python
 
 The XML parser resolves external entities. Declaring an entity that points at a local file and referencing it inside `<Version>` returns that file's contents in the response. This is XML External Entity (XXE) file disclosure.
 
-## Source review
-
-No source code was provided. The client side is in the page's JavaScript:
+Relevant code: no source code was provided. The client side is in the page's JavaScript:
 
 - `static/js/update.js` builds an XML config and posts it to `/api/update` with `Content-Type: application/xml`.
 - The config is user-editable. The textarea is the whole input, so an arbitrary XML document (including a `DOCTYPE`) can be sent.
@@ -36,19 +34,19 @@ No source code was provided. The client side is in the page's JavaScript:
 2. Confirm that the parser resolves entities. Send a `DOCTYPE` with `SYSTEM "file:///etc/passwd"` and reference it in `<Version>`. The `message` returns the contents of `/etc/passwd`.
 3. Read the flag. `file:///flag.txt` is at the root of the filesystem and holds the flag.
 
-## Steps
-
-1. Load `/rom` and read `static/js/update.js` to find the endpoint and content type.
-2. Send the XXE payload with `file:///etc/passwd` to confirm disclosure.
-3. Send the same payload with `file:///flag.txt`. The flag appears in the `message` field.
-
-The solve script does steps 2 and 3 with `requests` and prints both responses.
-
-## Observations
+Observations from testing:
 
 - The response is status 200 with JSON. The file contents are in the `message` field, after the text `Firmware version`.
 - The entity value is inserted as-is, so text containing newlines (like `/etc/passwd`) appears in the message.
 - Reading `/root/flag.txt`, `/home/guest/flag.txt`, and `/app/flag.txt` returned `None`. The flag is at `/flag.txt`. Enumerating a few likely paths is quick.
+
+## Steps
+
+1. Load `/rom` and read `static/js/update.js` to find the endpoint and content type.
+2. Send the XXE payload with `file:///etc/passwd` to confirm disclosure.
+3. Send the same payload with `file:///flag.txt`. The flag appears in the `message` field: `HTB{b1om3tric_l0cks_4nd_fl1cker1ng_l1ghts_REDACTED}`.
+
+The solve script does steps 2 and 3 with `requests` and prints both responses.
 
 ## Problems hit
 

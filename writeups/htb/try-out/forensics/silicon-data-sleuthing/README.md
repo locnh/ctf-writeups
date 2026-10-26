@@ -14,11 +14,11 @@ difficulty: 4
 
 **Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
 
-**Input:** `chal_router_dump.bin`, a 16 MB raw flash dump of an OpenWrt router, in a zip archive.
-
-**Remote:** `nc <ip> 31938`. It asks six questions in sequence. Each answer is checked exactly, and a wrong answer adds a wait before the next try.
+**Solve script:** none (manual steps)
 
 ## Summary
+
+The input is `chal_router_dump.bin`, a 16 MB raw flash dump of an OpenWrt router, in a zip archive. The remote is `nc <ip> 31938`. It asks six questions in sequence. Each answer is checked exactly, and a wrong answer adds a wait before the next try.
 
 The challenge gives a raw dump of a router's SPI flash. The player has to turn the dump into a readable filesystem and pull six facts out of it: the OpenWrt release, the Linux kernel version, the root password hash, the PPPoE credentials, the WiFi SSID and key, and the WAN port forwards.
 
@@ -174,6 +174,8 @@ The tar entries include:
 | WAN → LAN ports | `etc/config/firewall`, `redirect` | `17XX,22XX,80XX` |
 
 The three redirects are `DB` (17XX to 5881), `WEB` (22XX to 9889) and `NAS` (80XX to 4431), all with `src 'wan'` and `dest 'lan'`.
+
+**Flag:** `HTB{Y0u'v3_m4st3r3d_0p3nWRT_d4t4_3xtr4ct10n!!_REDACTED}`
 
 ## Problems hit
 

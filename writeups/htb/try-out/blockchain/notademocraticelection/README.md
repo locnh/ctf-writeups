@@ -22,8 +22,6 @@ The goal is to make the party `CIM` win the election. The contract declares a wi
 
 The setup deposits 100 ether for `Satoshi Nakamoto`. The weight for that key is therefore `100e18`. Splitting `SatoshiNakamoto` at any other position gives a new identity with the same key. Each such identity can deposit with zero value and vote for `CIM`. Each vote adds `100e18`, so ten votes reach `1000e18` and set the winner.
 
-## Source review
-
 The challenge has three contracts. `Setup.sol` deploys the target, makes the first deposit, and exposes `isSolved()`, which checks `winner == "CIM"`. The main logic is in `NotADemocraticElection.sol`:
 
 - `voters` is keyed by `getVoterSig(name, surname)`, which is `abi.encodePacked(name, surname)`. That key has no separator, so `("Satoshi", "Nakamoto")` and `("SatoshiNaka", "moto")` produce the same key.
@@ -33,6 +31,14 @@ The challenge has three contracts. `Setup.sol` deploys the target, makes the fir
 - Nothing stops one identity from voting more than once. Every vote adds the full weight again.
 
 The bug is the inconsistent key. The weight is stored under one key, and the right to vote is granted under another. Each new split is a new voter that inherits the weight of the original deposit.
+
+## Attack chain
+
+- Before the attack, `winner()` was empty and `getVotesCount(CIM)` was 0. The player address had 1 ETH.
+- Each deposit cost about 50k gas and each vote about 59k gas. The whole attack needs no ether beyond gas, because the weight comes from the setup deposit.
+- Every transaction succeeded, and `VoterDeposited` and `Voted` events were emitted for each one.
+- The info port returned the flag after the last vote.
+- After the run, the RPC node reported that the contract had no code at the target address. The instance seems to have been reset after the flag was issued, so the on-chain state could not be checked again. The flag from the info port is the proof of the solve.
 
 ## Steps
 
@@ -44,19 +50,13 @@ The bug is the inconsistent key. The weight is stored under one key, and the rig
 
 The solve script runs steps 1 to 5 with `cast send` from Foundry. The `cast send` calls are sent in sequence. Each one waits for its receipt.
 
-## Observations
-
-- Before the attack, `winner()` was empty and `getVotesCount(CIM)` was 0. The player address had 1 ETH.
-- Each deposit cost about 50k gas and each vote about 59k gas. The whole attack needs no ether beyond gas, because the weight comes from the setup deposit.
-- Every transaction succeeded, and `VoterDeposited` and `Voted` events were emitted for each one.
-- The info port returned the flag after the last vote: `HTB{h4sh_c0ll1s10n_t0_br1ng_REDACTED}`.
-- After the run, the RPC node reported that the contract had no code at the target address. The instance seems to have been reset after the flag was issued, so the on-chain state could not be checked again. The flag from the info port is the proof of the solve.
+The flag is `HTB{h4sh_c0ll1s10n_t0_br1ng_REDACTED}`.
 
 ## Problems hit
 
 - **Port 41625 looked silent.** A raw socket to it returned no banner. It is the RPC node, not the menu. A `eth_chainId` request returned `0x7a69` (31337, Anvil), which confirmed it.
 - **`cast` was not installed.** The script depends on Foundry's `cast`. I installed it with `brew install foundry` (v1.8.6).
-- **The final state check failed.** See the last observation above. The flag was already returned, so this did not block the solve.
+- **The final state check failed.** See the last Attack chain observation above. The flag was already returned, so this did not block the solve.
 
 ## Defense
 

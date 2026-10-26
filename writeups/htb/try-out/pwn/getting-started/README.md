@@ -20,7 +20,7 @@ difficulty: 1
 
 The service is a small x86-64 ELF that teaches stack layout. It prints the stack frame, then reads input with `scanf("%s", buf)`. `buf` is 32 bytes at `rbp-0x30`, and the 8-byte `target` is at `rbp-0x8`, which is 40 bytes after the start of `buf`. `scanf("%s")` has no length limit, so the input can overwrite `target`. At the end of `main`, the program compares `target` with `0xdeadbeef`. If the values are equal, it prints a space. If they differ, it calls `win()`, which prints the flag.
 
-## Source review
+## Attack chain
 
 The archive contains the binary `gs`, a bundled glibc, `flag.txt`, and a sample `wrapper.py`. Disassembly shows:
 
@@ -36,6 +36,8 @@ The archive contains the binary `gs`, a bundled glibc, `flag.txt`, and a sample 
 4. The comparison fails, `win()` runs, and the flag is printed.
 
 The sample `wrapper.py` sends `A` x 10. That does not reach `target`, so the program takes the success branch and does not print the flag.
+
+**Flag:** `HTB{b0f_tut0r14l5_4r3_REDACTED}`
 
 ## Problems hit
 

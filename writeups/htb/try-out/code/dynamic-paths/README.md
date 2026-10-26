@@ -20,13 +20,17 @@ difficulty: 2
 
 The service is a grid maze. It sends 100 grids in a row. For each grid you must return the minimum sum of the numbers on a path from the top-left cell to the bottom-right cell, moving only right or down. After the 100th correct answer the service prints the flag. The problem is the classic minimum path sum, solved with dynamic programming in O(rows × cols) per grid.
 
-## Source review
-
 No source code was provided. The challenge is treated as a black box, and all the information comes from the service itself:
 
 - The banner states the rules: `2 <= i, j <= 100`, each cell value `1 <= n <= 50`, moves are right or down only, and the answer is the minimum sum.
 - Each test starts with a `Test X/100` header, then a line with `rows cols`, then the cell values. The cells can run over several lines.
 - After each answer the server prints `> ` with no newline. That detail matters for the script (see Problems hit).
+
+## Attack chain
+
+- Each grid is different, and the sizes range up to 100 × 100. The DP runs in well under a millisecond per grid, so the time limit is not an issue.
+- In a raw-socket probe, before the script was fixed, the server accepted the DP answers for tests 1–7 with no error.
+- The service keeps the connection open until the last answer, then sends the flag and closes.
 
 ## Steps
 
@@ -40,11 +44,7 @@ The solve script does steps 2–4 in a loop over the 100 tests.
 
 Check against the example in the banner: the 4×3 grid gives 17 along `2 -> 5 -> 2 -> 1 -> 3 -> 4`, which matches the DP result.
 
-## Observations
-
-- Each grid is different, and the sizes range up to 100 × 100. The DP runs in well under a millisecond per grid, so the time limit is not an issue.
-- In a raw-socket probe, before the script was fixed, the server accepted the DP answers for tests 1–7 with no error.
-- The service keeps the connection open until the last answer, then sends the flag and closes.
+The flag is `HTB{b3h3M07H_5h0uld_H4v3_57ud13D_dYM4m1C_pr09r4mm1n9_70_C47ch_y0u_REDACTED}`.
 
 ## Problems hit
 

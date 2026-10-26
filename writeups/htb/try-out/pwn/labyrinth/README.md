@@ -20,7 +20,7 @@ difficulty: 2
 
 The service is a small x86-64 ELF with a door-choosing game. `main` prints the board for doors 1 to 100 and then reads a choice with `fgets`. If the choice starts with `69`, the program prints a message and calls `fgets` with a size of 0x44 on a 0x30-byte stack buffer. `fgets` writes up to 67 bytes plus a NUL, so the write goes past the buffer and reaches the saved `rbp` and the return address. The binary has no stack canary and no PIE. `escape_plan()` opens `./flag.txt` and prints it, so the exploit returns into it.
 
-## Source review
+## Attack chain
 
 The archive contains the binary `labyrinth`, a bundled glibc, and a local `flag.txt`. `checksec` reports:
 
@@ -49,6 +49,8 @@ Disassembly of the relevant parts:
    - 8 bytes for the return address, set to `0x401259`, which is `escape_plan+4` (`sub rsp, 0x10`).
    - `\n`, which ends the `fgets`.
 3. `main` runs `leave; ret` and jumps to `0x401259`. `escape_plan` opens `./flag.txt`, prints it, and then the program crashes on the bad return. The flag is already on the socket by then.
+
+**Flag:** `HTB{3sc4p3_fr0m_REDACTED}`
 
 ## Problems hit
 

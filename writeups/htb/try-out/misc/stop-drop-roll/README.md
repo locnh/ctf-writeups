@@ -30,19 +30,20 @@ When a round lists several scenarios, the answer is the mapped words joined with
 
 The game runs for 500 rounds. After the last correct answer it prints the flag. Each round is a fixed mapping, so a script can answer every round without any game logic of its own.
 
+## Attack chain
+
+- The round lists vary in length, from one to five scenarios. The script handles all of them with the same code.
+- The run took 500 rounds and ended with the flag. The script did not send any wrong answers, so how the server handles a wrong answer was not tested.
+
 ## Steps
 
 1. Connect and answer `y` to `Are you ready? (y/n)`.
 2. Read each round line `What do you do? <scenarios>`.
 3. Split the line into scenario names with a regex, map each name, and join the answers with `-`.
 4. Send the answer and repeat. After round 500, the reply contains the flag.
+5. Flag: `HTB{1_wiLl_sT0p_dR0p_4nD_r0Ll_mY_REDACTED}`
 
 The solve script does this with `pwntools` and a single connection. It uses a regex on the keywords, so it ignores the rest of each line.
-
-## Observations
-
-- The round lists vary in length, from one to five scenarios. The script handles all of them with the same code.
-- The run took 500 rounds and ended with the flag. The script did not send any wrong answers, so how the server handles a wrong answer was not tested.
 
 ## Problems hit
 

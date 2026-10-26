@@ -10,7 +10,11 @@ difficulty: 4
 
 # OmniWatch
 
+**Flag:** `HTB{h3110_41w4y5_i_s3e_y0u4nd_1m_w4tch1ng_REDACTED}`
+
 **Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
+
+**Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port> [seconds]`. Payload is in `artifacts/payload.js`.
 
 ## Summary
 

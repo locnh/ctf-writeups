@@ -22,12 +22,18 @@ The page offers six radio buttons (`free -m`, `uptime`, `iostat`, `mpstat`, `net
 
 The array has a seventh entry. In `app.js`, the request body is destructured as `const { choice, ㅤ } = req.body;`, where `ㅤ` is the Hangul filler character U+3164. That name is valid in JavaScript, but it is invisible in most editors and in the rendered source. The array then contains `'ps aux', ㅤ`, so `commands[6]` is whatever the client sends under the field `ㅤ`. Sending `choice=6` and `ㅤ=cat flag.txt` runs that string through `exec`.
 
-## Source review
+Source review:
 
 - `app.js` has one route that matters: `POST /server_status`.
 - `choice` is converted with `+choice` and checked with `isNaN` and a bounds check against `commands.length`. The bounds check uses the array length, which includes the hidden seventh element, so index 6 passes.
 - The seventh element is not a constant. It is the value of the hidden field, so user input goes straight into `exec()`.
 - `public/js/index.js` only sends `choice`. Nothing in the frontend shows the hidden field, so the only way to find it is to read the source.
+
+## Attack chain
+
+- The exploit runs without any extra setup. The response has status 200 and the flag as plain text.
+- The Dockerfile runs the app as root in the container. The flag is in `/www/flag.txt` and readable by the app process. No privilege escalation was needed.
+- Index 6 is accepted because the bounds check runs against `commands.length`, which is 7 with the hidden element.
 
 ## Steps
 
@@ -37,11 +43,7 @@ The array has a seventh entry. In `app.js`, the request body is destructured as 
 
 The solve script does step 2 with `requests` and prints the response.
 
-## Observations
-
-- The exploit runs without any extra setup. The response has status 200 and the flag as plain text.
-- The Dockerfile runs the app as root in the container. The flag is in `/www/flag.txt` and readable by the app process. No privilege escalation was needed.
-- Index 6 is accepted because the bounds check runs against `commands.length`, which is 7 with the hidden element.
+The flag is `HTB{1nvi5IBl3_cH4r4cT3rS_n0t_sO_v1SIbL3_REDACTED}`.
 
 ## Problems hit
 

@@ -20,13 +20,17 @@ difficulty: 2
 
 The challenge gives a ciphertext and a hint line. The cipher is a Caesar-like shift, but the shift depends on the position of each letter instead of being fixed. Each letter is moved by its index in the string, mod 26. Non-letter characters keep their place and are not shifted, but they still count in the index. Because the shift is known, the cipher can be reversed directly. The hint line says the decrypted text must be wrapped in the HTB flag format.
 
-## Source review
-
 The challenge ships with two files: a Python encryption script and the output. The script is kept in `private/` and is not reproduced here. Only the logic matters for the write-up:
 
 - Each letter `ch` at index `i` becomes `(ch - 'A' + i) mod 26`, then mapped back to a letter.
 - Non-letters are copied unchanged. The index `i` still counts them, so they affect the shift of every letter after them.
 - The flag is written after a fixed line, so the output has no braces. The braces come from the HTB format and are added by the solver.
+
+## Attack chain
+
+- The output is a single line of uppercase letters with punctuation (`?!`, `_`) mixed in. The `_` characters are not letters, so they keep their position and still count in the index.
+- The shift is by the position, not by a fixed key. A frequency analysis does not work well here, but the cipher is trivial to reverse once the rule is known.
+- The hint on the first line tells you the format of the answer and names the cipher family. It gives the plaintext format, not the key.
 
 ## Steps
 
@@ -37,11 +41,7 @@ The challenge ships with two files: a Python encryption script and the output. T
 
 The solve script does steps 2 and 3. Step 4 was checked with a separate encryption script kept in `private/`, not in the public repo.
 
-## Observations
-
-- The output is a single line of uppercase letters with punctuation (`?!`, `_`) mixed in. The `_` characters are not letters, so they keep their position and still count in the index.
-- The shift is by the position, not by a fixed key. A frequency analysis does not work well here, but the cipher is trivial to reverse once the rule is known.
-- The hint on the first line tells you the format of the answer and names the cipher family. It gives the plaintext format, not the key.
+The flag is `HTB{DID_YOU_KNOW_ABOUT_THE_TRITHEMIUS_CIPHER?!_REDACTED}`.
 
 ## Problems hit
 

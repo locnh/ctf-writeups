@@ -22,9 +22,7 @@ The app is a text adventure in a terminal-style page. Players type commands, and
 
 The game options come from `GET /api/options`. That endpoint returns the full `allPossibleCommands` object, including a `secret` key. The client accepts commands from that list too, but never shows them. The `secret` entry holds a single command, and sending it to `/api/monitor` returns the flag.
 
-## Source review
-
-No source code was provided. The client JavaScript (`static/terminal/js/main.js`) shows the behavior:
+Relevant code: no source code was provided. The client JavaScript (`static/terminal/js/main.js`) shows the behavior:
 
 - `startCommander` calls `fetchOptions`, which loads `/api/options` and stores `allPossibleCommands` as `availableOptions`.
 - `CheckMessage` sends the typed command to `/api/monitor` if it is in `availableOptions[currentStep]` or in `availableOptions['secret']`.
@@ -39,19 +37,19 @@ Because the full options object is public, anything listed under `secret` is kno
 2. Send that string as the `command` field to `POST /api/monitor`.
 3. The response message contains the flag.
 
-## Steps
-
-1. `curl http://<target>/api/options` and find `"secret": ["Blip-blop, in a pickle with a hiccup! Shmiggity-shmack"]`.
-2. `POST /api/monitor` with `{"command": "Blip-blop, in a pickle with a hiccup! Shmiggity-shmack"}`.
-3. The `message` field is the flag.
-
-The solve script does steps 1 and 2 with `requests` and prints the response.
-
-## Observations
+Observations from testing:
 
 - The secret command bypasses the step check. The server accepts it at any point in the game, without starting the game or choosing the earlier options.
 - Other commands are rejected with `What are you trying to break??`. That message only shows the server handles the input; it does not show that the input is a template or an injection.
 - The normal path (`HEAD NORTH` and so on) works. Its first response is a story line. I did not play through to the end, because the secret command already returned the flag.
+
+## Steps
+
+1. `curl http://<target>/api/options` and find `"secret": ["Blip-blop, in a pickle with a hiccup! Shmiggity-shmack"]`.
+2. `POST /api/monitor` with `{"command": "Blip-blop, in a pickle with a hiccup! Shmiggity-shmack"}`.
+3. The `message` field is the flag: `HTB{D3v3l0p3r_t00l5_4r3_b35t_wh4t_y0u_Th1nk??!_REDACTED}`.
+
+The solve script does steps 1 and 2 with `requests` and prints the response.
 
 ## Problems hit
 
