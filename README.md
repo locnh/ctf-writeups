@@ -45,5 +45,6 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 | HTB | try-out | [labyrinth-linguist](writeups/htb/try-out/web/labyrinth-linguist/README.md) | web | 🌶️🌶️🌶️ (3/5) | solved |
 | HTB | try-out | [htb-proxy](writeups/htb/try-out/web/htb-proxy/README.md) | web | 🌶️🌶️🌶️🌶️ (4/5) | solved |
 | HTB | try-out | [blueprint-heist](writeups/htb/try-out/web/blueprint-heist/README.md) | web | 🌶️🌶️🌶️🌶️🌶️ (5/5) | solved |
+| HTB | try-out | [omniwatch](writeups/htb/try-out/web/omniwatch/README.md) | web | 🌶️🌶️🌶️🌶️ (4/5) | solved |
 | HTB | try-out | [an-unusual-sighting](writeups/htb/try-out/forensics/an-unusual-sighting/README.md) | forensics | 🌶️🌶️ (2/5) | solved |
 | HTB | try-out | [silicon-data-sleuthing](writeups/htb/try-out/forensics/silicon-data-sleuthing/README.md) | forensics | 🌶️🌶️🌶️🌶️ (4/5) | solved |
