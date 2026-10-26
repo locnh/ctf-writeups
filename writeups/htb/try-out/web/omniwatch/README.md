@@ -12,6 +12,8 @@ difficulty: 4
 
 **Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
 
+**Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port> [seconds]`. Payload is in `artifacts/payload.js`.
+
 ## Summary
 
 The stack is Varnish in front of a Zig oracle service (`http.zig`) and a Flask controller. A Chromium bot logs in as the moderator every 30 seconds. The attack has four parts:

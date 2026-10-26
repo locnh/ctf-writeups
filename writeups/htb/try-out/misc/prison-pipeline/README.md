@@ -8,22 +8,15 @@ status: solved
 difficulty: 4
 ---
 
-# Write-up: misc_prison_pipeline
-
-**Flag:** `HTB{pr1s0n_br34k_w1th_supply_ch41n!_REDACTED}`
+# Prison Pipeline
 
 **Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
 
-**Target:** `<target>` (HTB challenge instance)
-**Script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port> --version 1.0.5`
+**Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port> --version 1.0.5`
 
 ## Summary
 
 The web app has an SSRF in its prisoner import endpoint. Through the SSRF, the attacker can read local files with `file://` (but cannot read `/root/flag` directly), read the token of the private npm registry from `/home/node/.npmrc`, and publish a malicious version of the `prisoner-db` package. A cronjob runs `npm update` and `pm2 restart` on the app every 30 seconds, so the payload in the package runs as user `node`. The payload puts a fake `cat` on `PATH` and calls `/readflag` (setuid root), which copies `/root/flag` to `/tmp/flag_out`. The attacker then reads `/tmp/flag_out` through the SSRF.
-
-Attack chain: **SSRF → read registry token → publish malicious package → supply chain (automatic npm update) → code execution as `node` → PATH hijack of `/readflag` (setuid) → read flag.**
-
-## Source code review
 
 Scope: `challenge/application/` (Express app), `challenge/prisoner-db/` (internal npm module), `config/` (`readflag.c`, `cronjob.sh`, `setup-registry.sh`, `verdaccio.yaml`, `nginx.conf`, `supervisord.conf`) and the `Dockerfile`.
 
@@ -43,6 +36,10 @@ First I searched for sensitive sinks: outbound requests (`curl`), file reads (`r
 | 8 | `challenge/prisoner-db/curl.js`, `CurlWrapper` | No timeout; `new Curl()` in the constructor is never used | **Low** | Requests can hang. Does not affect the main chain |
 | 9 | `config/cronjob.sh`, line 5 | `chmod 600 /home/node/.config/cronjob.sh`: the file does not exist, so the line does nothing | **Info** | Leftover from an earlier edit, no impact |
 | 10 | `challenge/prisoner-db/index.js`, `importPrisoner()` | Errors are swallowed in `catch`; the route still returns 200 with `prisoner_id: false` | **Info** | No security impact |
+
+## Attack chain
+
+**SSRF → read registry token → publish malicious package → supply chain (automatic npm update) → code execution as `node` → PATH hijack of `/readflag` (setuid) → read flag.**
 
 ### Ruled out
 
@@ -69,6 +66,8 @@ After that, `file:///home/node/.npmrc` returned the registry token, and the expl
 **Note:** a repeat test of the same paths was not possible because instance `32679` has stopped running (`Connection refused`). The results above come from the earlier run, not from a repeat.
 
 ## Steps
+
+Target: `<target>` (HTB challenge instance)
 
 ### 1. Verify the SSRF
 
@@ -120,7 +119,9 @@ Once `1.0.5` is `latest`, cron updates `/app/node_modules/prisoner-db` and resta
 
 `file:///tmp/flag_out` read through the SSRF returns the flag contents.
 
-## Problems hit while building the PoC
+Flag: `HTB{pr1s0n_br34k_w1th_supply_ch41n!_REDACTED}`
+
+## Problems hit
 
 These bugs were in the PoC, not in the challenge. They are recorded here to reproduce them and to explain why the first run did not return the flag.
 
@@ -134,14 +135,21 @@ Note on problem 3: the payload runs before the failing `require`, so `/tmp/flag_
 
 **Note on instances:** after a bad publish, the `prisoner-db` packument keeps the broken version in the registry, and publishing a new version does not remove it. This was verified on a local Verdaccio. A new instance is required after a bad publish.
 
-## Verification
-
-- Ran the fixed PoC on instance `32679` with `--version 1.0.5`: publish returned 201, cron updated and restarted the app, and the flag was returned on the first poll.
-- The fixed tarball was checked locally: it contains `package.json`, `index.js`, and `curl.js`. `require('prisoner-db')` loads, and the payload creates `/tmp/pwn/cat`. This check used a stub for `node-libcurl`, because the real package does not build on the Node 24 used for the check.
-
-## Remediation (if this were a real system)
+## Defense
 
 - Restrict the SSRF: block `file://` and block access to `127.0.0.1` from the import endpoint.
 - Do not store a token with publish rights in a file the app process can read.
 - Do not `npm update` and `pm2 restart` from an internal registry without checking signatures or versions. Pin dependencies and require a separate publish role for CI.
 - `/readflag` should not be setuid root, and `system()` should not be called with a relative command name.
+
+### Verification
+
+- Ran the fixed PoC on instance `32679` with `--version 1.0.5`: publish returned 201, cron updated and restarted the app, and the flag was returned on the first poll.
+- The fixed tarball was checked locally: it contains `package.json`, `index.js`, and `curl.js`. `require('prisoner-db')` loads, and the payload creates `/tmp/pwn/cat`. This check used a stub for `node-libcurl`, because the real package does not build on the Node 24 used for the check.
+
+## Lessons
+
+- An unauthenticated SSRF is the entry point to start from. Everything after it here (token, publish, code execution, escalation) depended on that one bug.
+- Automatic updates from an internal registry turn publish rights into code execution in the app. Pin versions and verify what gets installed.
+- A setuid binary that calls another command by relative name can be hijacked through `PATH`. Use absolute paths and drop privileges before running commands.
+- When a PoC stalls, check the registry metadata first. A manifest the registry cannot serve back stops the update cycle without any error in the app.

@@ -10,8 +10,6 @@ difficulty: 5
 
 # web/blueprint-heist
 
-**Flag:** `HTB{ch41ning_m4st3rs_b4y0nd_1m4g1nary_REDACTED}`
-
 **Difficulty:** 🌶️🌶️🌶️🌶️🌶️ (5/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`. Set `JWT_SECRET` to skip the file-read step (see Problems hit).
@@ -43,10 +41,15 @@ Relevant code:
 6. **Write the template.** `UNION SELECT 1,0x<hex template>,1,1 INTO OUTFILE '/app/views/errors/404.ejs' #`. The template is `<%- global.process.mainModule.require('child_process').execSync('/readflag').toString() %>`. The hex encoding avoids quotes in the payload.
 7. **Trigger the 404.** `GET /<random>` renders `404.ejs`, which runs `/readflag`. The flag is in the response HTML.
 
+Observations from testing:
+
+- **Only the `file://` route fails.** `http://127.0.0.1:1337/` returns a PDF, so the SSRF to loopback is intact. The failure is in local file access, not in the converter.
+- **The fake flag in the archive.** `src/flag.txt` contains `HTB{FAKE_FLAG_FOR_TESTING}`. The real flag is only in the instance, and only `/readflag` returns it.
+
 ## Steps
 
 1. Run `solve.py`. It reads the secret, forges the admin token, writes `404.ejs`, requests a random path, and prints the first `HTB{...}` found in the response.
-2. The flag is printed as `[+] Flag:`.
+2. The flag is printed as `[+] Flag:`. The flag is `HTB{ch41ning_m4st3rs_b4y0nd_1m4g1nary_REDACTED}`.
 3. If the file read is not available, pass the secret directly: `JWT_SECRET='Str0ng_K3y_N0_l3ak_pl3ase?' python3 solve.py <target_ip> <target_port>`.
 
 Running the script again is safe. `INTO OUTFILE` does not overwrite an existing file, so the earlier `404.ejs` is used, and the flag is still printed.
@@ -59,11 +62,6 @@ Running the script again is safe. `INTO OUTFILE` does not overwrite an existing 
 - **The leaked secret is still valid on the live target.** A token signed with it returned the "Error Occured" page on `/graphql`. A token signed with a wrong secret returned "Unauthorized". I did not check the response code. The "Error Occured" title probably comes from `checkInternal` rejecting a valid token from a non-localhost address. The script then ran to the flag.
 - **The zip's `.env` does not match the live secret.** `src/app/.env` in the archive has `IM_Sup3r_K3y_pl3ase_b3_c4r3ful?`. The live instance uses `Str0ng_K3y_N0_l3ak_pl3ase?`. Use the secret from the instance, not from the source.
 - **The PDF text is glyph IDs, not plain text.** `wkhtmltopdf` embeds DejaVuSans and writes the text as CID glyph IDs. `pdf_text()` in `solve.py` reads the `ToUnicode` CMap (`bfrange` and `bfchar`) and turns each `Td` with a vertical move into a newline.
-
-## Observations
-
-- **Only the `file://` route fails.** `http://127.0.0.1:1337/` returns a PDF, so the SSRF to loopback is intact. The failure is in local file access, not in the converter.
-- **The fake flag in the archive.** `src/flag.txt` contains `HTB{FAKE_FLAG_FOR_TESTING}`. The real flag is only in the instance, and only `/readflag` returns it.
 
 ## Defense
 

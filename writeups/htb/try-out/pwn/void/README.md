@@ -10,8 +10,6 @@ difficulty: 5
 
 # pwn/void
 
-**Flag:** `HTB{pwnt00l5_h0mep4g3_15_REDACTED}`
-
 **Difficulty:** 🌶️🌶️🌶️🌶️🌶️ (5/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port> [fd]`. The default `fd` is 5, which is the descriptor the server's `open` returns.
@@ -22,7 +20,7 @@ The service is a tiny x86-64 ELF. `main` calls `vuln`, which does `read(0, buf, 
 
 The server never writes anything back. The binary imports only `read`, so there is no `puts`, `write`, or `system` to call, and no leak. The exploit has to be blind. It uses ret2dlresolve to resolve `open`, `read`, and `write` from libc at runtime, so no libc address is needed. The stack is pivoted into `.bss` first, because the 200-byte overflow is too small for the whole chain.
 
-## Source review
+## Attack chain
 
 - `checksec`: no canary, NX on, no PIE, partial RELRO. `.got.plt` is writable, and `.got` is read-only after startup.
 - `vuln` at `0x401122`: `read(0, rbp-0x40, 0xc8)`. The buffer is 64 bytes, so the return address is at offset 72.
@@ -54,6 +52,8 @@ The exploit runs in two stages.
 The fake `Elf64_Sym` and `Elf64_Rela` structures for `open` and `write` are placed in `.bss` next to the chain. The relocation index is chosen so that `JMPREL + index*24` falls inside them. The symbol name is written next to them. `solve.py` builds these the same way pwntools does.
 
 After `write` returns, the chain returns into garbage and crashes. The flag is already in the socket buffer, so it arrives before the connection closes.
+
+**Flag:** `HTB{pwnt00l5_h0mep4g3_15_REDACTED}`
 
 ## Problems hit
 

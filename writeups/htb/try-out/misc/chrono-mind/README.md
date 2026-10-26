@@ -10,8 +10,6 @@ difficulty: 4
 
 # misc/chrono-mind
 
-**Flag:** `HTB{1nj3c73d_c0n73x7_c0p1l07_3x3cu73_REDACTED}`
-
 **Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip>:<target_port>`
@@ -26,6 +24,13 @@ The app is a FastAPI service with a small LLM "knowledge base" chatbot. It has t
 
 The chain is: path traversal → LLM leaks the key → call the code endpoint with the key → read the flag with `/readflag`.
 
+## Attack chain
+
+- The first request after the container starts is slow. The first `/` took about 51 seconds, and the first `/api/create` call timed out with a 5-second limit. Later requests were fast.
+- `/api/ask` answered in about 0.6 seconds once the server was warm. The leaked key came back as a quoted string inside a sentence, so the regex in the script was enough.
+- `/api/copilot/complete_and_run` took about 40 seconds. The code-completion model runs on CPU, and the completed code is appended to the submitted code before it runs.
+- The flag is printed twice in the output (the code's completion calls `/readflag` a second time). The script removes the duplicate lines.
+
 ## Steps
 
 1. **Load `config.py`.** `POST /api/create` with `{"topic": "../config.py"}` returns `201`. The server also sets a `room` cookie. Keep the cookie for the next request.
@@ -34,12 +39,7 @@ The chain is: path traversal → LLM leaks the key → call the code endpoint wi
 
 The solve script does these three steps in one session and prints the flag.
 
-## Observations
-
-- The first request after the container starts is slow. The first `/` took about 51 seconds, and the first `/api/create` call timed out with a 5-second limit. Later requests were fast.
-- `/api/ask` answered in about 0.6 seconds once the server was warm. The leaked key came back as a quoted string inside a sentence, so the regex in the script was enough.
-- `/api/copilot/complete_and_run` took about 40 seconds. The code-completion model runs on CPU, and the completed code is appended to the submitted code before it runs.
-- The flag is printed twice in the output (the code's completion calls `/readflag` a second time). The script removes the duplicate lines.
+The flag is `HTB{1nj3c73d_c0n73x7_c0p1l07_3x3cu73_REDACTED}`.
 
 ## Problems hit
 

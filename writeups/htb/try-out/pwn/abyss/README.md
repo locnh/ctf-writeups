@@ -10,8 +10,6 @@ difficulty: 3
 
 # pwn/abyss
 
-**Flag:** `HTB{sH0u1D_h4v3-NU11-t3rmIn4tEd_buf!_REDACTED}`
-
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port>`.
@@ -20,7 +18,7 @@ difficulty: 3
 
 The service is a small command loop with three commands: `LOGIN`, `READ`, and `EXIT`. `READ` opens and prints any file, but only after `LOGIN` succeeds. The login credentials are random, and the server reads them from `.creds` at startup. The bug is in `cmd_login`. It copies the `USER` and `PASS` values byte by byte from a 512-byte buffer into 512-byte stack arrays, with no bounds check, and the copy loops run past the buffer until they see a NUL byte. The `PASS` copy can reach the saved return address of `cmd_login`. The NUL-stop behavior limits what can be written, so the exploit writes only three bytes of the return address. It returns into `cmd_read`, just past the `logged_in` check, and reads `flag.txt` directly.
 
-## Source review
+## Attack chain
 
 - `cmd_login` has three stack arrays: `pass` at `rbp-0x210`, `user` at `rbp-0x410`, and `buf` at `rbp-0x610`. `i` (the loop counter) is at `rbp-0x4`, inside the range that the `pass` copy writes.
 - The `PASS` copy writes `pass[i-5] = buf[i]` while `buf[i] != 0`. The source is `buf`, and when `i` passes 512 it continues into `user`, so the source is contiguous memory that the attacker controls.
@@ -42,6 +40,8 @@ The service is a small command loop with three commands: `LOGIN`, `READ`, and `E
 5. From `i = 0x21d`, the copy reads `user[29..31]` and writes them to `rbp+8..rbp+10`, which is the low three bytes of the return address. `user[32]` is NUL, so the loop stops, and the terminator writes `0` to `rbp+0xb`, the fourth byte of the return address. The upper bytes were already zero, so the return address is `0x4014ed`.
 6. `cmd_login` runs `leave; ret`, which goes to `0x4014ed`. The `jne` is taken, so `cmd_read` runs `read(0, buf, 0x200)`.
 7. Send `flag.txt\0`. `open` uses the NUL, `read` loads the file, and `write(1, ...)` sends it to the socket.
+
+**Flag:** `HTB{sH0u1D_h4v3-NU11-t3rmIn4tEd_buf!_REDACTED}`
 
 ## Problems hit
 

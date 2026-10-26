@@ -10,15 +10,13 @@ difficulty: 2
 
 # forensics/an-unusual-sighting
 
-**Flag:** `HTB{4n_unusual_s1ght1ng_1n_SSH_REDACTED}`
-
 **Difficulty:** 🌶️🌶️ (2/5)
 
-**Input:** `bash_history.txt` and `sshd.log`, in a zip archive. No binaries, no network capture.
-
-**Remote:** `nc <ip> 40307`. It asks six questions in sequence. Each answer is checked exactly, and a wrong answer adds a wait before the next try.
+**Solve script:** none (manual steps)
 
 ## Summary
+
+The input is `bash_history.txt` and `sshd.log`, in a zip archive. There are no binaries and no network capture. The remote is `nc <ip> 40307`. It asks six questions in sequence. Each answer is checked exactly, and a wrong answer adds a wait before the next try.
 
 The team's dev server, `korp`, had work disappear. The player gets two logs from that server: the SSH log and the bash history of the dev account. The job is to find the intrusion in those logs.
 
@@ -88,6 +86,8 @@ In the bash history, the first entry after 04:00:14 is `[2024-02-19 04:00:18] wh
 The last entry before 04:38:17 is `[2024-02-19 04:14:02] ./setup`. Nothing else is logged between 04:14:02 and the logout, so the answer is `./setup`.
 
 Note what the history shows in between: the attacker read `/etc/passwd` and `/etc/shadow`, downloaded a `latest.tar.gz` from `gnu-packages.com`, and deleted it with `shred -zu` after extraction. The `./setup` script is the most likely payload.
+
+**Flag:** `HTB{4n_unusual_s1ght1ng_1n_SSH_REDACTED}`
 
 ## Problems hit
 

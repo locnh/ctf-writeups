@@ -10,8 +10,6 @@ difficulty: 3
 
 # pwn/regularity
 
-**Flag:** `HTB{juMp1nG_w1tH_tH3_r3gIsT3rS?_REDACTED}`
-
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port>`. The shellcode source is in `artifacts/shellcode.s`.
@@ -20,7 +18,7 @@ difficulty: 3
 
 The service is a static, non-PIE x86-64 binary. It prints a greeting, reads up to 0x110 bytes into a 0x100 byte stack buffer, prints a second message, and exits. The read overflows the buffer and overwrites the saved return address. The stack is `rwx`, and when `read` returns, `rsi` still points at the start of the buffer. The binary also has a `jmp rsi` gadget at `0x401041`, so the overflow can jump to the buffer and run shellcode there. The flag file is `flag.txt` in the working directory.
 
-## Source review
+## Attack chain
 
 The binary is the only file in the archive, with a placeholder `flag.txt`. Disassembly shows the relevant code:
 
@@ -44,6 +42,8 @@ The shellcode (70 bytes):
 - `read(fd, rsp-0x400, 0x100)`.
 - `write(1, rsp-0x400, count)`.
 - `exit(0)`.
+
+**Flag:** `HTB{juMp1nG_w1tH_tH3_r3gIsT3rS?_REDACTED}`
 
 ## Problems hit
 

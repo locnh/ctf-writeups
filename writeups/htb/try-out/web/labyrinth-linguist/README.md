@@ -10,8 +10,6 @@ difficulty: 3
 
 # web/labyrinth-linguist
 
-**Flag:** `HTB{f13ry_t3mpl4t35_fr0m_th3_d3pth5!!_REDACTED}`
-
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`
@@ -22,7 +20,7 @@ The app is a Spring Boot site that "translates" English to a fictional language.
 
 Because the input is inserted before Velocity parses the file, any Velocity directive in the input runs on the server. That is server-side template injection (SSTI). Velocity 1.7 allows method calls on any Java object, so the input can reach `java.lang.Runtime` and run commands.
 
-## Source review
+Relevant code:
 
 The archive is password-protected with the standard HTB password, `hackthebox`.
 
@@ -40,15 +38,15 @@ The archive is password-protected with the standard HTB password, `hackthebox`.
 3. Run a command with `getRuntime().exec(...)`.
 4. Read the command's output with `getInputStream().readAllBytes()`, and base64-encode it with `java.util.Base64`. The page shows the base64 text, which the script decodes.
 
-## Steps
-
-1. Run the solve script. It runs `ls /` to show the root directory, then `cat /flag.txt`.
-2. The flag is printed after `[*] Reading /flag.txt...`.
-
-## Observations
+Observations from testing:
 
 - `Runtime.exec(String)` splits on spaces and does not expand shell globs. `cat /flag*` would not match the file, so the script uses the exact name.
 - Base64 keeps the output on one line, so it survives the HTML page. The script takes it from the `class="fire"` element.
+
+## Steps
+
+1. Run the solve script. It runs `ls /` to show the root directory, then `cat /flag.txt`.
+2. The flag is printed after `[*] Reading /flag.txt...`: `HTB{f13ry_t3mpl4t35_fr0m_th3_d3pth5!!_REDACTED}`.
 
 ## Problems hit
 

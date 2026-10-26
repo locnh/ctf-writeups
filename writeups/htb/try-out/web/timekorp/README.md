@@ -10,8 +10,6 @@ difficulty: 2
 
 # web/timekorp
 
-**Flag:** `HTB{t1m3_f0r_th3_ult1m4t3_pwn4g3_REDACTED}`
-
 **Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`
@@ -22,7 +20,7 @@ The app is a PHP 7.4 site behind nginx and php-fpm. The index page shows the cur
 
 The `format` value goes into a shell command. `TimeModel` builds `date '+<format>' 2>&1` and runs it with PHP's `exec()`. The format is wrapped in single quotes but never escaped, so a value containing `'` can end the quoted string and add new shell commands.
 
-## Source review
+Relevant code:
 
 - `Router.php` maps `GET /` to `TimeController@index`.
 - `TimeController::index` reads `$_GET['format']` (default `%H:%M:%S`) and passes it to `new TimeModel($format)`.
@@ -37,18 +35,18 @@ The `format` value goes into a shell command. `TimeModel` builds `date '+<format
 3. End the injected text with `#` so the trailing `' 2>&1` from the original command is ignored.
 4. The output of `cat /flag` is printed in the page heading.
 
-## Steps
-
-1. Confirm the injection. `format=%Y';id;#` renders `uid=1000(www) gid=1000(www) groups=1000(www)` in the heading.
-2. Read the flag. `format=%Y';cat /flag;#` renders the flag.
-
-The solve script does step 2 with `requests` and prints the heading.
-
-## Observations
+Observations from testing:
 
 - The output appears in the `<h1>` heading, after `It's`.
 - PHP's `exec()` returns only the last line of the command output. The flag is a single line, so it is returned in full.
 - `%` in the format is a `date` format specifier. The injected part (`';cat /flag;#`) has no `%`, so it does not interact with `date`.
+
+## Steps
+
+1. Confirm the injection. `format=%Y';id;#` renders `uid=1000(www) gid=1000(www) groups=1000(www)` in the heading.
+2. Read the flag. `format=%Y';cat /flag;#` renders the flag: `HTB{t1m3_f0r_th3_ult1m4t3_pwn4g3_REDACTED}`.
+
+The solve script does step 2 with `requests` and prints the heading.
 
 ## Problems hit
 

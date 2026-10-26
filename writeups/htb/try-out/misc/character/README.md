@@ -10,8 +10,6 @@ difficulty: 2
 
 # misc/character
 
-**Flag:** `HTB{tH15_1s_4_r3aLly_l0nG_fL4g_i_h0p3_f0r_REDACTED}`
-
 **Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`
@@ -19,6 +17,12 @@ difficulty: 2
 ## Summary
 
 The service asks for an index into the flag and replies with the character at that position. Nothing limits how many indices can be requested, and the flag is returned one character at a time. Requesting indices in order from `0` and stopping at the closing `}` recovers the whole flag.
+
+## Attack chain
+
+- The reply always has the form `Character at Index N: c`, so parsing is a split on `:`.
+- The index keeps working well beyond the end of the visible flag prefix. The flag is 103 characters long, ending with `}` at index 103.
+- No rate limiting or connection limit showed up during the run.
 
 ## Steps
 
@@ -29,11 +33,7 @@ The service asks for an index into the flag and replies with the character at th
 
 The solve script uses a single persistent connection and `pwntools` to read each prompt and reply. It stops when it reads a `}`, or when the connection closes.
 
-## Observations
-
-- The reply always has the form `Character at Index N: c`, so parsing is a split on `:`.
-- The index keeps working well beyond the end of the visible flag prefix. The flag is 103 characters long, ending with `}` at index 103.
-- No rate limiting or connection limit showed up during the run.
+The flag is `HTB{tH15_1s_4_r3aLly_l0nG_fL4g_i_h0p3_f0r_REDACTED}`.
 
 ## Problems hit
 
