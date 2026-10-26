@@ -59,3 +59,4 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 | HTB | try-out | [phreaky](writeups/htb/try-out/forensics/phreaky/README.md) | forensics | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | try-out | [flagcasino](writeups/htb/try-out/reversing/flagcasino/README.md) | reversing | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | try-out | [lootstash](writeups/htb/try-out/reversing/lootstash/README.md) | reversing | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | try-out | [dont-panic](writeups/htb/try-out/reversing/dont-panic/README.md) | reversing | 🌶️🌶️🌶️ (3/5) | 🏁 | 🤖 |
