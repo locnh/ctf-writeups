@@ -10,6 +10,8 @@ difficulty: 4
 
 # forensics/silicon-data-sleuthing
 
+**Flag:** `HTB{Y0u'v3_m4st3r3d_0p3nWRT_d4t4_3xtr4ct10n!!_REDACTED}`
+
 **Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
 
 **Solve script:** none (manual steps)

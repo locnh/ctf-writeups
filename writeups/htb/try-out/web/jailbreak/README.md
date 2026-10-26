@@ -10,6 +10,8 @@ difficulty: 2
 
 # web/jailbreak
 
+**Flag:** `HTB{b1om3tric_l0cks_4nd_fl1cker1ng_l1ghts_REDACTED}`
+
 **Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`

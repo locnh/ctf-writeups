@@ -10,6 +10,8 @@ difficulty: 3
 
 # blockchain/notademocraticelection
 
+**Flag:** `HTB{h4sh_c0ll1s10n_t0_br1ng_REDACTED}`
+
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <info_port> <rpc_port>`. The challenge has two ports, so the usual `<target_ip> <target_port>` form does not apply. The info port returns the key and the contract address, and the RPC port is an Anvil node.

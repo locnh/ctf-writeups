@@ -10,6 +10,8 @@ difficulty: 2
 
 # web/flag-command
 
+**Flag:** `HTB{D3v3l0p3r_t00l5_4r3_b35t_wh4t_y0u_Th1nk??!_REDACTED}`
+
 **Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`

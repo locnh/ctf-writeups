@@ -10,6 +10,8 @@ difficulty: 3
 
 # web/guild
 
+**Flag:** `HTB{mult1pl3_lo0p5_mult1pl3_h0les_REDACTED}`
+
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`

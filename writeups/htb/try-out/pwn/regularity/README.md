@@ -10,6 +10,8 @@ difficulty: 3
 
 # pwn/regularity
 
+**Flag:** `HTB{juMp1nG_w1tH_tH3_r3gIsT3rS?_REDACTED}`
+
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port>`. The shellcode source is in `artifacts/shellcode.s`.

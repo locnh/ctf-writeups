@@ -10,6 +10,8 @@ difficulty: 5
 
 # web/blueprint-heist
 
+**Flag:** `HTB{ch41ning_m4st3rs_b4y0nd_1m4g1nary_REDACTED}`
+
 **Difficulty:** 🌶️🌶️🌶️🌶️🌶️ (5/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`. Set `JWT_SECRET` to skip the file-read step (see Problems hit).

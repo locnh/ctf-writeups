@@ -10,6 +10,8 @@ difficulty: 4
 
 # Prison Pipeline
 
+**Flag:** `HTB{pr1s0n_br34k_w1th_supply_ch41n!_REDACTED}`
+
 **Difficulty:** 🌶️🌶️🌶️🌶️ (4/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port> --version 1.0.5`

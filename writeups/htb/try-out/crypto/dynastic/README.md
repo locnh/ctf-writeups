@@ -10,6 +10,8 @@ difficulty: 2
 
 # crypto/dynastic
 
+**Flag:** `HTB{DID_YOU_KNOW_ABOUT_THE_TRITHEMIUS_CIPHER?!_REDACTED}`
+
 **Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <output.txt>`. The script works offline.

@@ -10,6 +10,8 @@ difficulty: 2
 
 # code/dynamic-paths
 
+**Flag:** `HTB{b3h3M07H_5h0uld_H4v3_57ud13D_dYM4m1C_pr09r4mm1n9_70_C47ch_y0u_REDACTED}`
+
 **Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`

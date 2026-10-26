@@ -10,6 +10,8 @@ difficulty: 1
 
 # misc/stop-drop-roll
 
+**Flag:** `HTB{1_wiLl_sT0p_dR0p_4nD_r0Ll_mY_REDACTED}`
+
 **Difficulty:** 🌶️ (1/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <target_ip> <target_port>`

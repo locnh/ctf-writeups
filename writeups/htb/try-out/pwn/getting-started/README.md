@@ -10,6 +10,8 @@ difficulty: 1
 
 # pwn/getting-started
 
+**Flag:** `HTB{b0f_tut0r14l5_4r3_REDACTED}`
+
 **Difficulty:** 🌶️ (1/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port>`.

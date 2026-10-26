@@ -10,6 +10,8 @@ difficulty: 2
 
 # forensics/an-unusual-sighting
 
+**Flag:** `HTB{4n_unusual_s1ght1ng_1n_SSH_REDACTED}`
+
 **Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** none (manual steps)

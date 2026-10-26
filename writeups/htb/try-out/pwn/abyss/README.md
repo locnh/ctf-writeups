@@ -10,6 +10,8 @@ difficulty: 3
 
 # pwn/abyss
 
+**Flag:** `HTB{sH0u1D_h4v3-NU11-t3rmIn4tEd_buf!_REDACTED}`
+
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port>`.

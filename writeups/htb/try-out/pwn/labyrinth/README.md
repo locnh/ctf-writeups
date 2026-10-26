@@ -10,6 +10,8 @@ difficulty: 2
 
 # pwn/labyrinth
 
+**Flag:** `HTB{3sc4p3_fr0m_REDACTED}`
+
 **Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <ip> <port>`.
