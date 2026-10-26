@@ -31,12 +31,44 @@ No cracking is needed. The passwords are in the mail bodies.
 
 ## Steps
 
-1. Put `phreaky.pcap` in a fresh folder.
-2. Reassemble the TCP streams on port 25, client to server, in sequence order. The stream is parsed with scapy, or with any tool that can reassemble TCP. Find each `DATA` block and parse it as a MIME message with `email.message_from_bytes` or an equivalent.
-3. For each message, read the password from the `text/plain` part and save the `application/zip` attachment. Rebuild the filename from `filename*0` and `filename*1`.
-4. Unzip each attachment with its password into a folder numbered by message, so each part keeps its `partN` name.
-5. Join the parts in numeric order, then inflate the PDF content streams with `zlib` and read the `Tj` text.
-6. The flag is in the appendix.
+1. Put `phreaky.pcap` in a folder, and run the solver. It uses only the standard library:
+
+   ```
+   python3 solve.py phreaky.pcap [output_dir]
+   ```
+
+   `output_dir` is optional. It defaults to `phreaky_out/` next to the pcap. The script writes each recovered zip part and the joined `phreaks_plan.pdf` there.
+
+2. The script does these steps:
+   - Parses the classic pcap format and reassembles the TCP streams to port 25, in sequence order.
+   - Finds each SMTP `DATA` block and parses it as a MIME message.
+   - Reads the password from the `text/plain` part and opens the `application/zip` attachment with it.
+   - Joins the parts in numeric order, inflates the PDF streams, and searches the text for `HTB{...}`.
+
+Sample output (flag masked):
+
+```
+$ python3 solve.py phreaky.pcap
+[*] SMTP DATA messages: 15
+[+] message 0: phreaks_plan.pdf.part1 (221 bytes), password S3W8yzixNoL8
+[+] message 1: phreaks_plan.pdf.part2 (221 bytes), password r5Q6YQEcGWEF
+[+] message 2: phreaks_plan.pdf.part3 (221 bytes), password TVm9aC1UycxF
+[+] message 3: phreaks_plan.pdf.part4 (221 bytes), password jISlbC8145Ox
+[+] message 4: phreaks_plan.pdf.part5 (221 bytes), password AdtJYhF4sFgv
+[+] message 5: phreaks_plan.pdf.part6 (221 bytes), password j2SRRDraIvUZ
+[+] message 6: phreaks_plan.pdf.part7 (221 bytes), password xh161WSXX7tB
+[+] message 7: phreaks_plan.pdf.part8 (221 bytes), password yH5vqnkm7Ixa
+[+] message 8: phreaks_plan.pdf.part9 (221 bytes), password tJPUTUfceO1P
+[+] message 9: phreaks_plan.pdf.part10 (221 bytes), password 2qKlZHZlBPQz
+[+] message 10: phreaks_plan.pdf.part11 (221 bytes), password mbkUvLZ1koxu
+[+] message 11: phreaks_plan.pdf.part12 (221 bytes), password ZN4yKAYrtf8x
+[+] message 12: phreaks_plan.pdf.part13 (221 bytes), password 0eA143t4432M
+[+] message 13: phreaks_plan.pdf.part14 (221 bytes), password oea41WCJrWwN
+[+] message 14: phreaks_plan.pdf.part15 (208 bytes), password gdOvbPtB0xCK
+[*] parts recovered: 15
+[*] joined PDF written to phreaky_out/phreaks_plan.pdf (3302 bytes)
+[+] Flag: HTB{Th3Phr3aks_REDACTED}
+```
 
 Flag: `HTB{Th3Phr3aks_REDACTED}`
 
