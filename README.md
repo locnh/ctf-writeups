@@ -46,6 +46,7 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 | HTB | try-out | [getting-started](writeups/htb/try-out/pwn/getting-started/README.md) | pwn | 🌶️ (1/5) | 🏁 | 🤖 |
 | HTB | try-out | [labyrinth](writeups/htb/try-out/pwn/labyrinth/README.md) | pwn | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | try-out | [void](writeups/htb/try-out/pwn/void/README.md) | pwn | 🌶️🌶️🌶️🌶️🌶️ (5/5) | 🏁 | 🤖 |
+| HTB | try-out | [router-web](writeups/htb/try-out/pwn/router-web/README.md) | pwn | 🌶️🌶️🌶️🌶️🌶️ (5/5) | 🏁 | 🤖 |
 | HTB | try-out | [jailbreak](writeups/htb/try-out/web/jailbreak/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | try-out | [timekorp](writeups/htb/try-out/web/timekorp/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | try-out | [flag-command](writeups/htb/try-out/web/flag-command/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
