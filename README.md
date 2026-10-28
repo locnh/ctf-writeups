@@ -35,6 +35,7 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 | HTB | try-out | [prison-pipeline](writeups/htb/try-out/misc/prison-pipeline/README.md) | misc | 🌶️🌶️🌶️🌶️ (4/5) | 🏁 | 🤖 |
 | HTB | try-out | [locked-away](writeups/htb/try-out/misc/locked-away/README.md) | misc | 🌶️🌶️🌶️ (3/5) | 🏁 | 🤖 |
 | HTB | try-out | [dynastic](writeups/htb/try-out/crypto/dynastic/README.md) | crypto | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | try-out | [blessed](writeups/htb/try-out/crypto/blessed/README.md) | crypto | 🌶️🌶️🌶️🌶️ (4/5) | 🏁 | 🤖 |
 | HTB | try-out | [notademocraticelection](writeups/htb/try-out/blockchain/notademocraticelection/README.md) | blockchain | 🌶️🌶️🌶️ (3/5) | 🏁 | 🤖 |
 | HTB | try-out | [dynamic-paths](writeups/htb/try-out/code/dynamic-paths/README.md) | code | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | try-out | [character](writeups/htb/try-out/misc/character/README.md) | misc | 🌶️🌶️ (2/5) | 🏁 | 🤖 |

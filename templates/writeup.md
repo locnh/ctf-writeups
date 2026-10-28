@@ -22,6 +22,14 @@ difficulty: <1-5>
 
 ## Steps
 
+## Sample output
+
+Output of the documented solve command, with the flag masked. Paste the real output from running it; do not write it by hand.
+
+```
+<output of: python3 solve.py <args>>
+```
+
 ## Problems hit
 
 ## Defense
