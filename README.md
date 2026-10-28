@@ -30,9 +30,17 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 
 ## Writeups
 
+### secfest26
+
 | Platform | Event | Challenge | Category | Difficulty | Status | Auto solve |
 |---|---|---|---|---|---|---|
 | HTB | secfest26 | [frontdesk](writeups/htb/secfest26/web/frontdesk/README.md) | web | 🌶️ (1/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [open-invitation](writeups/htb/secfest26/web/open-invitation/README.md) | web | 🌶️ (1/5) | 🏁 | 🤖 |
+
+### try-out
+
+| Platform | Event | Challenge | Category | Difficulty | Status | Auto solve |
+|---|---|---|---|---|---|---|
 | HTB | try-out | [prison-pipeline](writeups/htb/try-out/misc/prison-pipeline/README.md) | misc | 🌶️🌶️🌶️🌶️ (4/5) | 🏁 | 🤖 |
 | HTB | try-out | [locked-away](writeups/htb/try-out/misc/locked-away/README.md) | misc | 🌶️🌶️🌶️ (3/5) | 🏁 | 🤖 |
 | HTB | try-out | [dynastic](writeups/htb/try-out/crypto/dynastic/README.md) | crypto | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
