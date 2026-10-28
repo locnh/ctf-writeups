@@ -40,6 +40,7 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 | HTB | secfest26 | [dns-dossier](writeups/htb/secfest26/web/dns-dossier/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | secfest26 | [sr-network](writeups/htb/secfest26/web/sr-network/README.md) | web | 🌶️🌶️🌶️ (3/5) | 🏁 | 💪 |
 | HTB | secfest26 | [ghost-fleet](writeups/htb/secfest26/web/ghost-fleet/README.md) | web | 🌶️🌶️🌶️ (3/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [based0x](writeups/htb/secfest26/crypto/based0x/README.md) | crypto | 🌶️ (1/5) | 🏁 | 🤖 |
 
 ### try-out
 
