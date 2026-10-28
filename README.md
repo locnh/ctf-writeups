@@ -36,6 +36,7 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 |---|---|---|---|---|---|---|
 | HTB | secfest26 | [frontdesk](writeups/htb/secfest26/web/frontdesk/README.md) | web | 🌶️ (1/5) | 🏁 | 🤖 |
 | HTB | secfest26 | [open-invitation](writeups/htb/secfest26/web/open-invitation/README.md) | web | 🌶️ (1/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [checkout](writeups/htb/secfest26/web/checkout/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 
 ### try-out
 
