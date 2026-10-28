@@ -34,6 +34,15 @@ Relevant behaviour, seen from the outside:
 2. **Find the flag.** Send `host=example.com;ls -la /`. `/flag.txt` is in the root directory, readable by `www`.
 3. **Read the flag.** Send `host=example.com;cat /flag.txt`. The page shows the flag.
 
+### Trial and error
+
+Steps tried before the flag was found, in order:
+
+1. `GET /` shows the lookup form. My first request with `host=example.com` was filtered by a `sed` pattern that matched nothing, so I searched the whole response instead.
+2. `host=example.com;id` returned `uid=1000(www) gid=1000(www) groups=1000(www)` after the DNS answer. This showed that a `;` reaches a shell.
+3. `host=example.com;ls -la /` listed `flag.txt` in the root directory, owned by root and readable by all (`-rw-r--r--`).
+4. `host=example.com;cat /flag.txt` returned the flag. In the same request I also listed `/var/www` and `/home` to see where the app runs.
+
 ## Steps
 
 1. Run `solve.py`. It sends `host=example.com;cat /flag.txt` to `/`, then prints the first `HTB{...}` in the page.

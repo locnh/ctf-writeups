@@ -47,6 +47,17 @@ Relevant code, from `Checkout/controllers/webhook.js` and `Checkout/controllers/
 2. **Confirm the payment without a signature.** `POST /webhooks/payment/confirm` with JSON `{"event":"payment.confirmed","status":"PAID","paymentId":"<id>","confirmationRef":"..."}` and no `X-Signature` header. The server responds `payment processed`.
 3. **Read the flag.** `GET /vendor/payment/status?paymentId=<id>` shows the payment as PAID, and the flag is in the page.
 
+### Trial and error
+
+Steps tried before the flag was found, in order:
+
+1. I downloaded the source first and read `app.js` (routes), `controllers/webhook.js`, `controllers/payment.js`, `models.js`, `config.js` and the Dockerfile. My first idea was to forge the HMAC, which needs `WEBHOOK_SECRET`.
+2. `WEBHOOK_SECRET` is random at startup, so forging a valid signature was not possible. I then read `handlePaymentConfirmation` again. The signature check sits inside `if (signature)`, so the path without the header skips it.
+3. On the live instance, I registered a vendor. The dashboard showed payment `pay_15a92bf65c5b`, and the Pay button was disabled ("Payment service maintenance").
+4. I sent the unsigned webhook, which returned `payment processed`. The status page then showed `PAID` and the flag.
+
+I did not send a wrong signature to the live server, so the rejection path is from reading the code only.
+
 ## Steps
 
 1. Run `solve.py`. It registers a random vendor, reads the payment ID from the dashboard, sends the unsigned webhook, and prints the flag from the status page.

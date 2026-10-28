@@ -28,6 +28,16 @@ The FTP host `open-invitation.htb` does not resolve, and ports 21 and 2121 on th
 2. **Find the credential link.** The "HR Guide for Managers" link is `ftp://dev:HTB{...}@open-invitation.htb/hr/hr_guide_for_managers.pdf`.
 3. **Take the password.** The password is the flag.
 
+### Trial and error
+
+Steps tried before the flag was found, in order:
+
+1. `GET /` returned the FAQ page. I read its full HTML before probing other paths.
+2. Probed `/login`, `/register`, `/invite`, `/invitation`, `/invitations`, `/admin`, `/api`, `/health`, `/robots.txt`, `/app.js` and `/styles.css`. All returned `404`. `/static/` returned `403`, so directory listing is off.
+3. Read `/static/main.js`, the search and accordion code. It has no secrets.
+4. The FAQ entry "Need assistance managing employees through ADP?" links to `ftp://dev:HTB{...}@open-invitation.htb/hr/...`. The password part is the flag.
+5. Checking the link did not work. `open-invitation.htb` does not resolve, ports 21 and 2121 on the target are closed (checked with `/dev/tcp`), and `curl` to `ftp://<target_ip>/` with those credentials returned nothing. The HR PDF path on the web server (`/hr/hr_guide_for_managers.pdf`, `/hr/`, `/ftp/`, `/static/hr_guide_for_managers.pdf`) returned `404`.
+
 ## Steps
 
 1. Run `solve.py`. It fetches `/`, finds the first `HTB{...}` in the source, and prints it.

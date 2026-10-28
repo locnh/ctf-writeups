@@ -36,6 +36,16 @@ The source archive was not on disk and no download link was given, so this was s
 3. **Forge the identity.** Replace the value with base64 of `{"user":"admin"}`, which is `eyJ1c2VyIjoiYWRtaW4ifQ==`, and keep the same cookie name.
 4. **Read the flag.** `GET /admin` returns the dashboard, and the banner contains the flag.
 
+### Trial and error
+
+Steps tried before the cookie was found, in order:
+
+1. `GET /` redirects to `/login`. I probed about 30 common paths (`/register`, `/robots.txt`, `/.git/HEAD`, `/package.json`, `/static/`, `/api`, `/dashboard`, `/logout`, `/health`, and others). All returned `404`, apart from `/login`, `/register` and `/support`.
+2. `/admin`, `/admin/` and `/admin/login` all returned `403 Access denied`. The `403` suggested an access check, so I looked for what the check used.
+3. Registration returned a generic `400` ("An error occurred while trying to register") for `@example.com`, `@nor.gov`, `@test.com`, `a@b.c`, a long password, and a JSON body. This was a dead end.
+4. The support form (`/support` → `/support/topic` → `/support/message`) is public. A test message returned `302` to `/support/done?ref=NDAS-2026-000124` and set `session=eyJ1c2VyIjoiZ3Vlc3QifQ%3D%3D`.
+5. The cookie decodes to `{"user":"guest"}` with no signature part. Replacing it with base64 of `{"user":"admin"}` and keeping the same name opened `/admin`. The paths under `/admin/` I tried after that (`/admin/tickets`, `/admin/users`, and others) returned `404`, so the dashboard was the only admin page.
+
 ## Steps
 
 1. Run `solve.py` with the instance address. It builds the admin cookie, requests `/admin`, and prints the first `HTB{...}` in the page.
