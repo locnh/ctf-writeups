@@ -41,7 +41,9 @@ The source archive was not on disk and no download link was given, so this was s
 1. Run `solve.py` with the instance address. It builds the admin cookie, requests `/admin`, and prints the first `HTB{...}` in the page.
 2. The flag is printed as `[+] Flag:`. The flag is `HTB{N3v3r_REDACTED}`.
 
-Sample output, from running `python3 solve.py <target_ip> <target_port>` against the live instance (its address is left out here) with the flag masked:
+## Sample output
+
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
 
 ```
 [+] Flag:

@@ -33,7 +33,9 @@ The FTP host `open-invitation.htb` does not resolve, and ports 21 and 2121 on th
 1. Run `solve.py`. It fetches `/`, finds the first `HTB{...}` in the source, and prints it.
 2. The flag is printed as `[+] Flag:`. The flag is `HTB{op3n_REDACTED}`.
 
-Sample output, from running `python3 solve.py <target_ip> <target_port>` against the live instance (its address is left out here) with the flag masked:
+## Sample output
+
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
 
 ```
 [+] Flag:

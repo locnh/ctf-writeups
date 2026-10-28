@@ -52,7 +52,9 @@ Relevant code, from `Checkout/controllers/webhook.js` and `Checkout/controllers/
 1. Run `solve.py`. It registers a random vendor, reads the payment ID from the dashboard, sends the unsigned webhook, and prints the flag from the status page.
 2. The flag is printed as `[+] Flag:`. The flag is `HTB{W3bh00k_REDACTED}`.
 
-Sample output, from running `python3 solve.py <target_ip> <target_port>` against the live instance (its address is left out here) with the flag masked:
+## Sample output
+
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
 
 ```
 [*] Vendor registered, payment pay_cf5bc968dcc5
