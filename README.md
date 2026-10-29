@@ -43,7 +43,7 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 | HTB | secfest26 | [nebula-network](writeups/htb/secfest26/web/nebula-network/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | secfest26 | [quantum-market](writeups/htb/secfest26/web/quantum-market/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | secfest26 | [leaked](writeups/htb/secfest26/forensics/leaked/README.md) | forensics | 🌶️🌶️🌶️ (3/5) | 🏁 | 💪 |
-| HTB | secfest26 | [stolen-variables](writeups/htb/secfest26/forensics/stolen-variables/README.md) | forensics | 🌶️🌶️ (2/5) |  | 💪 |
+| HTB | secfest26 | [stolen-variables](writeups/htb/secfest26/forensics/stolen-variables/README.md) | forensics | 🌶️🌶️ (2/5) | 🏁 | 💪 |
 | HTB | secfest26 | [based0x](writeups/htb/secfest26/crypto/based0x/README.md) | crypto | 🌶️ (1/5) | 🏁 | 🤖 |
 | HTB | secfest26 | [me-is-mey](writeups/htb/secfest26/crypto/me-is-mey/README.md) | crypto | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | secfest26 | [the-gazorpazorps](writeups/htb/secfest26/crypto/the-gazorpazorps/README.md) | crypto | 🌶️🌶️🌶️ (3/5) | 🏁 | 🤖 |
