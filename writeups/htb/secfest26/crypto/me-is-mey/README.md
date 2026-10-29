@@ -22,6 +22,19 @@ The server gives the SHA-256 digest of `ready_play_one!`, which is computed by a
 
 The hint talks about bit manipulation and transposition. The code has no transposition step, only the bit map. The map is not one-to-one. The right shift puts bits 4 to 7 into positions 0 to 3, and the left shift puts bits 0 to 4 into positions 3 to 7. They overlap at bit 3, so two different bytes can give the same mapped value.
 
+### Vulnerable code
+
+The custom hash is in `private/htb/secfest26/crypto-me-is-mey/src/crypto_me_is_me/server.py`, lines 10 to 15:
+
+```python
+    def rotate(self, message):
+        return [((b >> 4) | (b << 3)) & 0xff for b in message]
+
+    def hexdigest(self):
+        rotated = self.rotate(self.message)
+        return sha256(bytes(rotated)).hexdigest()
+```
+
 ## Attack chain
 
 1. **Read the hash.** `rotate` is a per-byte map on the message, then SHA-256 is applied to the result. The map is not invertible, so the input can be changed without changing the output.

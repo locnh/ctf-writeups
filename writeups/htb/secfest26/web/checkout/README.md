@@ -41,6 +41,34 @@ Relevant code, from `Checkout/controllers/webhook.js` and `Checkout/controllers/
 - `payment.js`: the flag from `FLAG_PATH` is shown for any `PAID` payment, with no check of the viewer.
 - `config.js`: `WEBHOOK_SECRET` is random per process, so a forged signature cannot be computed. It is not needed.
 
+### Vulnerable code
+
+The signature check is skipped when the header is missing. From `private/htb/secfest26/web-checkout/src/Checkout/controllers/webhook.js` (lines 40-50):
+
+```js
+  if (signature) {
+    if (!verifySignature(signature, rawBody || Buffer.from(""))) {
+      return { statusCode: 400, message: "invalid signature" };
+    }
+
+    markPaid(payment.paymentId);
+    return { statusCode: 200, message: "payment processed" };
+  }
+
+  markPaid(payment.paymentId);
+  return { statusCode: 200, message: "payment processed" };
+```
+
+The flag is returned for any `PAID` payment. From `private/htb/secfest26/web-checkout/src/Checkout/controllers/payment.js` (lines 19-23):
+
+```js
+  let flagHtml = "";
+  if (payment.status === "PAID") {
+    const flag = fs.readFileSync(FLAG_PATH, "utf8").trim();
+    flagHtml = `<h3>Flag</h3><pre>${flag}</pre>`;
+  }
+```
+
 ## Attack chain
 
 1. **Register a vendor.** `POST /vendor/register` creates the account, and the response shows its `pay_...` payment ID.

@@ -24,6 +24,26 @@ The cookie check (`signature.integrity`) takes the IV from the first 16 bytes of
 
 The first ciphertext block is `E(P1 ⊕ IV)`. If the attacker changes the plaintext block to `P1'` and sets `IV' = IV ⊕ P1 ⊕ P1'`, the first block stays the same. Every later block depends only on the previous ciphertext block, so it stays the same too. The forged cookie passes the check, and the decrypted plaintext is never used. The server only reads the plaintext from the first part of the cookie, so the attacker also writes the new plaintext there.
 
+### Vulnerable code
+
+The IV default is in `private/htb/secfest26/crypto-the-gazorpazorps/src/crypto_the_gazorpazops/application/models.py`, line 59:
+
+```python
+    def create(secret, hashing_input, iv=urandom(BLOCK_SIZE)):
+```
+
+The integrity check is in the same file, lines 68 to 74:
+
+```python
+    @staticmethod
+    def integrity(hashing_input, crypto_segment):
+        if signature.create(KEY, signature.decode(hashing_input),
+                            signature.decode(crypto_segment)
+                            [:AES.block_size]) == crypto_segment:
+            return True
+        return False
+```
+
 ## Attack chain
 
 1. **Get a guest cookie.** `GET /` without a cookie returns a 302 and sets `buyer_info`.

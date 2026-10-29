@@ -49,6 +49,7 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 | HTB | secfest26 | [re-cars-ai](writeups/htb/secfest26/ai-ml/re-cars-ai/README.md) | ai-ml | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | secfest26 | [cosmic-crisis](writeups/htb/secfest26/ai-ml/cosmic-crisis/README.md) | ai-ml | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 | HTB | secfest26 | [stock-signals](writeups/htb/secfest26/ai-ml/stock-signals/README.md) | ai-ml | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [logics-business](writeups/htb/secfest26/secure-coding/logics-business/README.md) | secure-coding | 🌶️🌶️🌶️ (3/5) | 🏁 | 🤖 |
 
 ### try-out
 

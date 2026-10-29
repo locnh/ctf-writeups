@@ -22,6 +22,18 @@ The challenge gives `source.py` and `output.txt`. `source.py` does not encrypt a
 
 The decoded text is a long paragraph of filler text, and the flag is at the end: `Here is your flag : HTB{...}`.
 
+### Vulnerable code
+
+The encoder is in `private/htb/secfest26/crypto-based0x/src/crypto_based0x/source.py`, lines 5 to 9:
+
+```python
+def encode(m):
+    m = m.hex().encode()
+    for _ in range(3):
+        m = base64.b64encode(m)
+    return m
+```
+
 ## Attack chain
 
 1. **Read the encoder.** `encode(m)` runs `m.hex().encode()`, then `base64.b64encode` three times. `main` writes `encoded_flag.hex()` to `output.txt`.
