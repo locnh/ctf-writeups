@@ -34,6 +34,49 @@ Relevant code (`src/challenge`):
 - `controller/application/util/database.py`: `fetch_device` builds `SELECT ... WHERE device_id = '{device_id}'` and runs it with `multi=True`, which splits on `;`.
 - `config/cache.vcl`: `vcl_hash` only does `hash_data(req.http.CacheKey)`. `/controller/home` with a cookie uses `hash`.
 
+### Vulnerable code
+
+The oracle decodes `deviceId` and reflects it into the `DeviceId` response header (`private/htb/try-out/web-omniwatch/src/challenge/oracle/src/main.zig`, lines 43-51). Because the value is decoded before it is set, `%0d%0a` becomes a real CRLF and adds headers:
+
+```zig
+    const decodedDeviceId = try std.Uri.unescapeString(allocator, deviceId);
+    const decodedMode = try std.Uri.unescapeString(allocator, mode);
+
+    const latitude = try randomCoordinates();
+    const longtitude = try randomCoordinates();
+
+    res.header("X-Content-Type-Options", "nosniff");
+    res.header("X-XSS-Protection", "1; mode=block");
+    res.header("DeviceId", decodedDeviceId);
+```
+
+The `/firmware` POST handler joins the user-supplied `patch` onto the firmware directory without checking for `..` (`private/htb/try-out/web-omniwatch/src/challenge/controller/application/blueprints/routes.py`, lines 162-168):
+
+```python
+	if request.method == "POST":
+		patch = request.form.get("patch")
+
+		if not patch:
+			return response("Missing parameters"), 400
+
+		file_data = open(os.path.join(os.getcwd(), "application", "firmware", patch)).read()
+```
+
+`fetch_device` puts `device_id` into the SQL string and runs it with `multi=True`, which allows stacked statements (`private/htb/try-out/web-omniwatch/src/challenge/controller/application/util/database.py`, lines 221-223):
+
+```python
+	def fetch_device(self, device_id):
+		query = f"SELECT * FROM devices WHERE device_id = '{device_id}'"
+		device = self.query(query, multi=True)[0][0]
+```
+
+Varnish keys the cache only on the `CacheKey` header (`private/htb/try-out/web-omniwatch/src/config/cache.vcl`, lines 13-14):
+
+```vcl
+sub vcl_hash {
+    hash_data(req.http.CacheKey);
+```
+
 ## Attack chain
 
 1. **CRLF injection.** `GET /oracle/<mode>/1%0d%0aCacheKey:%20enable` returns `CacheKey: enable` in the response headers.
@@ -59,7 +102,7 @@ Relevant code (`src/challenge`):
 Sample output (flag masked):
 
 ```
-$ python3 solve.py 154.57.164.81 35113 240
+$ python3 solve.py <target_ip> <target_port> 240
 S0 -> S0 200
 S1 -> S1 status=200
 S2 -> S2 len=16

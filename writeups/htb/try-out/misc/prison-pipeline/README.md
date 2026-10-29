@@ -39,6 +39,48 @@ First I searched for sensitive sinks: outbound requests (`curl`), file reads (`r
 | 9 | `config/cronjob.sh`, line 5 | `chmod 600 /home/node/.config/cronjob.sh`: the file does not exist, so the line does nothing | **Info** | Leftover from an earlier edit, no impact |
 | 10 | `challenge/prisoner-db/index.js`, `importPrisoner()` | Errors are swallowed in `catch`; the route still returns 200 with `prisoner_id: false` | **Info** | No security impact |
 
+### Vulnerable code
+
+`POST /api/prisoners/import` only checks that `url` is present, then passes it to `importPrisoner()`. The code is in `private/htb/try-out/misc_prison_pipeline/challenge/application/routes/index.js`, lines 27 to 34:
+
+```js
+router.post('/api/prisoners/import', async (req, res, next) => {
+	const { url } = req.body;
+    if (!url) {
+        return res.status(400).json(response('Missing URL parameter'));
+    };
+
+    try {
+        let prisoner_id = await db.importPrisoner(url);
+```
+
+`_request()` sets the URL and `FOLLOWLOCATION` without any scheme or host check, so `file://` and internal hosts are reachable. The code is in `private/htb/try-out/misc_prison_pipeline/challenge/prisoner-db/curl.js`, lines 24 to 26:
+
+```js
+      curl.setOpt(Curl.option.URL, url);
+      curl.setOpt(Curl.option.CUSTOMREQUEST, method);
+      curl.setOpt(Curl.option.FOLLOWLOCATION, true);
+```
+
+The cron loop runs `npm update` and restarts the app every 30 seconds, with no version pin or integrity check. The code is in `private/htb/try-out/misc_prison_pipeline/config/cronjob.sh`, lines 15 to 21:
+
+```bash
+    OUTDATED=$(npm --registry $REGISTRY_URL outdated $PACKAGE_NAME)
+
+    if [[ -n "$OUTDATED" ]]; then
+        # Update package and restart app
+        npm --registry $REGISTRY_URL update $PACKAGE_NAME
+        pm2 restart prison-pipeline
+    fi
+```
+
+`readflag` is setuid root and calls `cat` by its relative name, so a fake `cat` earlier in `PATH` runs as root. The code is in `private/htb/try-out/misc_prison_pipeline/config/readflag.c`, lines 5 to 6:
+
+```c
+    setuid(0);
+    system("cat /root/flag");
+```
+
 ## Attack chain
 
 **SSRF → read registry token → publish malicious package → supply chain (automatic npm update) → code execution as `node` → PATH hijack of `/readflag` (setuid) → read flag.**

@@ -33,6 +33,66 @@ Relevant code:
 - `src/database/db.sql`: the `root` user has `ALL PRIVILEGES ... WITH GRANT OPTION`.
 - `src/flag.txt` is a fake flag. The real flag is at `/root/flag.txt` on the target.
 
+### Vulnerable code
+
+`private/htb/try-out/web-blueprint-heist/src/app/utils/security.js`, lines 3-11: the SQL filter (which checks only the first line) and the localhost check.
+
+```js
+function detectSqli (query) {
+    const pattern = /^.*[!#$%^&*()\-_=+{}\[\]\\|;:'\",.<>\/?]/
+    return pattern.test(query)
+}
+
+function checkInternal(req) {
+    const address = req.socket.remoteAddress.replace(/^.*:/, '')
+    return address === "127.0.0.1"
+}
+```
+
+`private/htb/try-out/web-blueprint-heist/src/app/schemas/schema.js`, lines 33-37: the filter result and the SQL string built directly from `args.name`.
+
+```js
+        if (detectSqli(args.name)) {
+          return generateError(400, "Username must only contain letters, numbers, and spaces.")
+        }
+        try {
+            data = await connection.query(`SELECT * FROM users WHERE name like '%${args.name}%'`).then(rows => rows[0]);
+```
+
+`private/htb/try-out/web-blueprint-heist/src/app/controllers/errorController.js`, lines 13-18: the error template is chosen from the status code, with `error.ejs` as the fallback.
+
+```js
+    const errorTemplate = (err.status >= 400 && err.status < 600) ? err.status : "error"
+    let templatePath = path.join(templateDir, `${errorTemplate}.ejs`);
+
+    if (!fs.existsSync(templatePath)) {
+        templatePath = path.join(templateDir, `error.ejs`);
+    }
+```
+
+`private/htb/try-out/web-blueprint-heist/src/config/readflag.c`, lines 3-7: `/readflag` sets uid 0 and runs `cat /root/flag.txt`.
+
+```c
+int main()
+{
+    setuid(0);
+    system("cat /root/flag.txt");
+}
+```
+
+`private/htb/try-out/web-blueprint-heist/src/database/db.sql`, line 44: the `root` database user has all privileges, including `FILE`.
+
+```sql
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+```
+
+`private/htb/try-out/web-blueprint-heist/src/Dockerfile`, lines 49-50: `readflag` is compiled and made setuid with mode `4755`.
+
+```dockerfile
+COPY config/readflag.c /
+RUN gcc -o /readflag /readflag.c && chmod 4755 /readflag && rm /readflag.c
+```
+
 ## Attack chain
 
 1. **Guest token.** `GET /getToken` returns a JWT with `role: user`.
@@ -46,7 +106,7 @@ Relevant code:
 Observations from testing:
 
 - **Only the `file://` route fails.** `http://127.0.0.1:1337/` returns a PDF, so the SSRF to loopback is intact. The failure is in local file access, not in the converter.
-- **The fake flag in the archive.** `src/flag.txt` contains `HTB{FAKE_FLAG_FOR_TESTING}`. The real flag is only in the instance, and only `/readflag` returns it.
+- **The fake flag in the archive.** `src/flag.txt` contains `HTB{FAKE_FLAG_FOR_TESTING_REDACTED}`. The real flag is only in the instance, and only `/readflag` returns it.
 
 ## Steps
 
