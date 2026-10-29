@@ -10,6 +10,8 @@ difficulty: 2
 
 # Phreaky
 
+**Flag:** `HTB{Th3Phr3aks_REDACTED}`
+
 **Difficulty:** 🌶️🌶️ (2/5)
 
 **Solve script:** `artifacts/solve.py`, run with `python3 solve.py <phreaky.pcap> [output_dir]`. The pcap is the file from the challenge zip. It uses only the standard library.
