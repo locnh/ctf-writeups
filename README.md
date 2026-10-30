@@ -30,6 +30,30 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 
 ## Writeups
 
+### secfest26
+
+| Platform | Event | Challenge | Category | Difficulty | Status | Auto solve |
+|---|---|---|---|---|---|---|
+| HTB | secfest26 | [frontdesk](writeups/htb/secfest26/web/frontdesk/README.md) | web | 🌶️ (1/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [open-invitation](writeups/htb/secfest26/web/open-invitation/README.md) | web | 🌶️ (1/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [checkout](writeups/htb/secfest26/web/checkout/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [dns-dossier](writeups/htb/secfest26/web/dns-dossier/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [sr-network](writeups/htb/secfest26/web/sr-network/README.md) | web | 🌶️🌶️🌶️ (3/5) | 🏁 | 💪 |
+| HTB | secfest26 | [ghost-fleet](writeups/htb/secfest26/web/ghost-fleet/README.md) | web | 🌶️🌶️🌶️ (3/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [nebula-network](writeups/htb/secfest26/web/nebula-network/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [quantum-market](writeups/htb/secfest26/web/quantum-market/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [leaked](writeups/htb/secfest26/forensics/leaked/README.md) | forensics | 🌶️🌶️🌶️ (3/5) | 🏁 | 💪 |
+| HTB | secfest26 | [stolen-variables](writeups/htb/secfest26/forensics/stolen-variables/README.md) | forensics | 🌶️🌶️ (2/5) | 🏁 | 💪 |
+| HTB | secfest26 | [based0x](writeups/htb/secfest26/crypto/based0x/README.md) | crypto | 🌶️ (1/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [me-is-mey](writeups/htb/secfest26/crypto/me-is-mey/README.md) | crypto | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [the-gazorpazorps](writeups/htb/secfest26/crypto/the-gazorpazorps/README.md) | crypto | 🌶️🌶️🌶️ (3/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [re-cars-ai](writeups/htb/secfest26/ai-ml/re-cars-ai/README.md) | ai-ml | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [cosmic-crisis](writeups/htb/secfest26/ai-ml/cosmic-crisis/README.md) | ai-ml | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [stock-signals](writeups/htb/secfest26/ai-ml/stock-signals/README.md) | ai-ml | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | secfest26 | [logics-business](writeups/htb/secfest26/secure-coding/logics-business/README.md) | secure-coding | 🌶️🌶️🌶️ (3/5) | 🏁 | 🤖 |
+
+### try-out
+
 | Platform | Event | Challenge | Category | Difficulty | Status | Auto solve |
 |---|---|---|---|---|---|---|
 | HTB | try-out | [prison-pipeline](writeups/htb/try-out/misc/prison-pipeline/README.md) | misc | 🌶️🌶️🌶️🌶️ (4/5) | 🏁 | 🤖 |

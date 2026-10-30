@@ -27,6 +27,45 @@ Two weaknesses combine:
 
 Together, the attacker predicts all the challenge bits, registers a rogue key that makes the aggregate key equal to a key they control, and signs `unveil_secrets` with that key.
 
+### Vulnerable code
+
+`rng()` adds `G` on each step and yields the high bits of the point's coordinates, and those values are the robot IDs. The code is in `private/htb/try-out/crypto-blessed/src/crypto_blessed/server.py`, lines 30 to 36:
+
+```python
+    W0 = G * seed + B
+    Wn = W0
+
+    while True:
+        Wn += G
+        yield Wn.x >> 32
+        yield Wn.y >> 32
+```
+
+The challenge bit for each `verify` round comes from the same `rng()`, and bit 1 takes the x-branch while bit 0 takes the sk-branch. The code is in `private/htb/try-out/crypto-blessed/src/crypto_blessed/server.py`, lines 98 to 107:
+
+```python
+            if next(self.rand) & 1:
+                x = int(input('Give me x (hex): '), 16)
+
+                if normalize(multiply(Pk, x)) != normalize(C):
+                    return {'error': 'Proof failed!'}
+            else:
+                sk_x = int(input('Give me (sk + x) (hex): '), 16)
+
+                if normalize(add(multiply(G1, sk_x), neg(Pk))) != normalize(C):
+                    return {'error': 'Proof failed!'}
+```
+
+`unveil_secrets` checks the aggregate signature against every verified key, so one rogue key can cancel the others. The code is in `private/htb/try-out/crypto-blessed/src/crypto_blessed/server.py`, lines 127 to 131:
+
+```python
+        agg_pk = [r.pk for r in self.robots if r.verified]
+
+        if not agg_sig:
+            return {'error': 'This command requires an aggregated signature'}
+        elif bls.FastAggregateVerify(agg_pk, b'unveil_secrets', agg_sig):
+```
+
 ## Attack chain
 
 - **Robot IDs.** The server creates 4 robots at start, and `create` adds a 5th. Those are yields 1 to 5. `join` takes yield 6. Each `verify` round takes one yield, so rounds 1 to 64 use yields 7 to 70. The bit for a round is bit 32 of the x or y coordinate of the walk point that the yield came from.

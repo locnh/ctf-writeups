@@ -41,6 +41,59 @@ The archive is password-protected with the standard HTB password, `hackthebox`.
 - `node_modules/ip-wrapper` 1.1.1 runs `exec("ip address flush dev " + interfaceName)` through `/bin/sh`. It rejects when stderr is non-empty and resolves otherwise.
 - `flag.txt` is at `/flag.txt` on this instance. The entrypoint renames it on normal startup.
 
+### Vulnerable code
+
+`requestParser` builds the POST body from the text between the first and second `\r\n\r\n` (`private/htb/try-out/web-htb-proxy/src/challenge/proxy/main.go`, lines 223-228). Only this body is checked and forwarded, so anything after it on the connection is not inspected:
+
+```go
+		var bodyContent string = bodySplit[1]
+		if len(bodyContent) != contentLengthInt {
+			return nil, fmt.Errorf("invalid content length")
+		}
+
+		request.Body = bodyContent[0:contentLengthInt]
+```
+
+The URL filter (`private/htb/try-out/web-htb-proxy/src/challenge/proxy/main.go`, lines 486-491) blocks `flushinterface` in the first request, which is the check that the smuggled second request gets past:
+
+```go
+	if strings.Contains(strings.ToLower(request.URL), string([]byte{102, 108, 117, 115, 104, 105, 110, 116, 101, 114, 102, 97, 99, 101})) {
+		var responseText string = badReqResponse("Not Allowed")
+		frontendConn.Write([]byte(responseText))
+		frontendConn.Close()
+		return
+	}
+```
+
+`validateInput` (`private/htb/try-out/web-htb-proxy/src/challenge/backend/index.js`, lines 10-15) only rejects an empty, non-string, or space-containing `interface`, so shell metacharacters pass:
+
+```javascript
+    if (
+        !interface || 
+        typeof interface !== "string" || 
+        interface.trim() === "" || 
+        interface.includes(" ")
+    ) {
+```
+
+The `/flushInterface` route (`private/htb/try-out/web-htb-proxy/src/challenge/backend/index.js`, lines 31-35) passes `interface` straight to `ip-wrapper`:
+
+```javascript
+app.post("/flushInterface", validateInput, async (req, res) => {
+    const { interface } = req.body;
+
+    try {
+        const addr = await ipWrapper.addr.flush(interface);
+```
+
+The `ip-wrapper` `flush` function (`private/htb/try-out/web-htb-proxy/npm/package/src/addresses.js`, lines 106-108) builds the command with a template string and runs it through `exec`, which uses `/bin/sh`:
+
+```javascript
+function flush(interfaceName) {
+    return new Promise((resolve, reject) => {
+        exec(`ip address flush dev ${interfaceName}`, (error, stdout, stderr) => {
+```
+
 ## Attack chain
 
 Observations from testing:
