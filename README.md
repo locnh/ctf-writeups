@@ -30,7 +30,7 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 
 ## Writeups
 
-### secfest26
+### secfest26 (event closed, flags published)
 
 | Platform | Event | Challenge | Category | Difficulty | Status | Auto solve |
 |---|---|---|---|---|---|---|
