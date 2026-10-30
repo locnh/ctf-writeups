@@ -10,7 +10,7 @@ difficulty: 3
 
 # web/ghost-fleet
 
-**Flag:** `HTB{br0k3n_REDACTED}`
+**Flag:** `HTB{br0k3n_4uth_0tp_byp4s5_pr0f1ttt_80a3d1aeb0e61a3040bc33fd8f97b884}`
 
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
@@ -35,17 +35,17 @@ The API uses a cookie named `access_token` for fleet endpoints, not an `Authoriz
 ## Steps
 
 1. Run `solve.py`. It requests an OTP for `commander`, tries every 4-digit OTP with 32 threads until one returns a token, then calls `/api/fleet/disable` with that token and prints the flag.
-2. The flag is printed as `[+] Flag:`. The flag is `HTB{br0k3n_REDACTED}`.
+2. The flag is printed as `[+] Flag:`. The flag is `HTB{br0k3n_4uth_0tp_byp4s5_pr0f1ttt_80a3d1aeb0e61a3040bc33fd8f97b884}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
 [*] OTP requested for commander
 [+] OTP 0461 accepted, admin token obtained
 [+] Flag:
-HTB{br0k3n_REDACTED}
+HTB{br0k3n_4uth_0tp_byp4s5_pr0f1ttt_80a3d1aeb0e61a3040bc33fd8f97b884}
 ```
 
 ## Problems hit

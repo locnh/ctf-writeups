@@ -10,7 +10,7 @@ difficulty: 3
 
 # web/sr-network
 
-**Flag:** `HTB{f0rg3_REDACTED}`
+**Flag:** `HTB{f0rg3_s1gn4l_k3y_0v3rl0ad_y3y_d25a67a260af28ee044ab17c3223b504}`
 
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
@@ -36,7 +36,7 @@ Credits are shared by the whole instance. Reaching the depleted state required a
 
 1. Register and log in with the API above, and keep the token.
 2. Send reset requests for a registered identifier, and count them.
-3. When the response changes to `company_credits_empty`, the response body holds the flag as `forge_signal_key`. The flag is `HTB{f0rg3_REDACTED}`.
+3. When the response changes to `company_credits_empty`, the response body holds the flag as `forge_signal_key`. The flag is `HTB{f0rg3_s1gn4l_k3y_0v3rl0ad_y3y_d25a67a260af28ee044ab17c3223b504}`.
 
 ## Problems hit
 

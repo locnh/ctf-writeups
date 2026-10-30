@@ -10,7 +10,7 @@ difficulty: 2
 
 # web/dns-dossier
 
-**Flag:** `HTB{1nv3nt3d_REDACTED}`
+**Flag:** `HTB{1nv3nt3d_th3_wh33l_0f_rc3_9f6289667d125cf267fae9f417c2660e}`
 
 **Difficulty:** 🌶️🌶️ (2/5)
 
@@ -46,15 +46,15 @@ Steps tried before the flag was found, in order:
 ## Steps
 
 1. Run `solve.py`. It sends `host=example.com;cat /flag.txt` to `/`, then prints the first `HTB{...}` in the page.
-2. The flag is printed as `[+] Flag:`. The flag is `HTB{1nv3nt3d_REDACTED}`.
+2. The flag is printed as `[+] Flag:`. The flag is `HTB{1nv3nt3d_th3_wh33l_0f_rc3_9f6289667d125cf267fae9f417c2660e}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
 [+] Flag:
-HTB{1nv3nt3d_REDACTED}
+HTB{1nv3nt3d_th3_wh33l_0f_rc3_9f6289667d125cf267fae9f417c2660e}
 ```
 
 ## Problems hit

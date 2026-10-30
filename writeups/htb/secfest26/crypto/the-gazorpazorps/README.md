@@ -10,7 +10,7 @@ difficulty: 3
 
 # crypto/the-gazorpazorps
 
-**Flag:** `HTB{CBC_REDACTED}`
+**Flag:** `HTB{CBC_m0d3_435_817_f11pp1n9_4774ck!}`
 
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
@@ -55,15 +55,15 @@ The integrity check is in the same file, lines 68 to 74:
 ## Steps
 
 1. Run `solve.py`. It gets a guest cookie with `GET /`, builds the forged cookie as described above, and sends `POST /order/` with it.
-2. The response has the flag, which the solver prints after `[+] Flag:`. The flag is `HTB{CBC_REDACTED}`.
+2. The response has the flag, which the solver prints after `[+] Flag:`. The flag is `HTB{CBC_m0d3_435_817_f11pp1n9_4774ck!}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
 [+] Flag:
-HTB{CBC_REDACTED}
+HTB{CBC_m0d3_435_817_f11pp1n9_4774ck!}
 ```
 
 ## Problems hit

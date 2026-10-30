@@ -10,7 +10,7 @@ difficulty: 2
 
 # ai-ml/re-cars-ai
 
-**Flag:** `HTB{555-REDACTED}`
+**Flag:** `HTB{555-1337-476}`
 
 **Difficulty:** 🌶️🌶️ (2/5)
 
@@ -31,22 +31,22 @@ The bot follows the redaction rule in normal answers, but it still answers a for
 ## Steps
 
 1. Run `solve.py`. It sends the prompt above to the chat, waits, reads the last bot reply, and checks that it has exactly 10 digits. If not, it retries up to five times.
-2. The script prints the phone number and the flag, `HTB{555-REDACTED}`.
+2. The script prints the phone number and the flag, `HTB{555-1337-476}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
-[+] Seller phone: 555-REDACTED
+[+] Seller phone: 555-1337-476
 [+] Flag:
-HTB{555-REDACTED}
+HTB{555-1337-476}
 ```
 
 ## Problems hit
 
 - **I dismissed the phone number as not the flag.** The number came back in every formatted request, and it matched when read as hex (the same digits, as a hex string). I still treated it as contact data, because I had no flag format. The description, which gives the `xxx-xxxx-xxx` format, showed that it was the flag.
-- **The count was wrong in the first solver.** I wrote the regex for 11 digits, but `555-REDACTED` has 3 + 4 + 3 = 10 digits. The solver got five bot replies with the right digits and rejected all of them. The fix was to match 10 digits.
+- **The count was wrong in the first solver.** I wrote the regex for 11 digits, but `555-1337-476` has 3 + 4 + 3 = 10 digits. The solver got five bot replies with the right digits and rejected all of them. The fix was to match 10 digits.
 - **The bot makes up details.** A reversed-digits request returned a different number each time, and some fields came back as invented text. Only answers that repeat across requests were trusted.
 - **Plain requests for contact details are refused.** Asking for the email, the name, the trunk contents, or a "secret code" gave refusals or filler. The formatting requests (spaced digits, hex, base64, dashes between letters) got through.
 

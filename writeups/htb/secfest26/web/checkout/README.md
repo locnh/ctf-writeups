@@ -10,7 +10,7 @@ difficulty: 2
 
 # web/checkout
 
-**Flag:** `HTB{W3bh00k_REDACTED}`
+**Flag:** `HTB{W3bh00k_S1gn4tur3s_Ar3_Cr1t1c4l}`
 
 **Difficulty:** 🌶️🌶️ (2/5)
 
@@ -89,17 +89,17 @@ I did not send a wrong signature to the live server, so the rejection path is fr
 ## Steps
 
 1. Run `solve.py`. It registers a random vendor, reads the payment ID from the dashboard, sends the unsigned webhook, and prints the flag from the status page.
-2. The flag is printed as `[+] Flag:`. The flag is `HTB{W3bh00k_REDACTED}`.
+2. The flag is printed as `[+] Flag:`. The flag is `HTB{W3bh00k_S1gn4tur3s_Ar3_Cr1t1c4l}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
 [*] Vendor registered, payment pay_cf5bc968dcc5
 [*] Webhook: payment processed
 [+] Flag:
-HTB{W3bh00k_REDACTED}
+HTB{W3bh00k_S1gn4tur3s_Ar3_Cr1t1c4l}
 ```
 
 ## Problems hit

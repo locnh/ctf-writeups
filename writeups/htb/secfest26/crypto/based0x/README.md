@@ -10,7 +10,7 @@ difficulty: 1
 
 # crypto/based0x
 
-**Flag:** `HTB{enc0d1ng_REDACTED}`
+**Flag:** `HTB{enc0d1ng_1s_n0t_th3_s4m3_4s_encrypt10n}`
 
 **Difficulty:** 🌶️ (1/5)
 
@@ -43,15 +43,15 @@ def encode(m):
 ## Steps
 
 1. Run `solve.py` with the path to `output.txt`. It applies the reverse of `encode()`, then searches the text for `HTB{...}`.
-2. The flag is printed as `[+] Flag:`. The flag is `HTB{enc0d1ng_REDACTED}`.
+2. The flag is printed as `[+] Flag:`. The flag is `HTB{enc0d1ng_1s_n0t_th3_s4m3_4s_encrypt10n}`.
 
 ## Sample output
 
-Output of `python3 solve.py <output.txt>`, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <output.txt>`. Pasted from the run, not written by hand.
 
 ```
 [+] Flag:
-HTB{enc0d1ng_REDACTED}
+HTB{enc0d1ng_1s_n0t_th3_s4m3_4s_encrypt10n}
 ```
 
 ## Problems hit

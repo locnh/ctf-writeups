@@ -10,7 +10,7 @@ difficulty: 1
 
 # web/open-invitation
 
-**Flag:** `HTB{op3n_REDACTED}`
+**Flag:** `HTB{op3n_inv1t4t10n_v1a_ftp_cr3ds}`
 
 **Difficulty:** 🌶️ (1/5)
 
@@ -41,15 +41,15 @@ Steps tried before the flag was found, in order:
 ## Steps
 
 1. Run `solve.py`. It fetches `/`, finds the first `HTB{...}` in the source, and prints it.
-2. The flag is printed as `[+] Flag:`. The flag is `HTB{op3n_REDACTED}`.
+2. The flag is printed as `[+] Flag:`. The flag is `HTB{op3n_inv1t4t10n_v1a_ftp_cr3ds}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
 [+] Flag:
-HTB{op3n_REDACTED}
+HTB{op3n_inv1t4t10n_v1a_ftp_cr3ds}
 ```
 
 ## Problems hit

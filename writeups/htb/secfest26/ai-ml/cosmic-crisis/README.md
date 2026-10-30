@@ -10,7 +10,7 @@ difficulty: 2
 
 # ai-ml/cosmic-crisis
 
-**Flag:** `HTB{tr41n3d_REDACTED}`
+**Flag:** `HTB{tr41n3d_t0_th3_h1gh_r04d_6069729eec5d4c320e1539bb81abdcb2}`
 
 **Difficulty:** 🌶️🌶️ (2/5)
 
@@ -34,16 +34,16 @@ Plain exaggeration is not enough. A description about the multiverse collapsing 
 ## Steps
 
 1. Run `solve.py`. It submits the description above, polls `/api/status` every two seconds for up to 30 seconds, and prints the priority and the flag.
-2. The flag is printed as `[+] Flag:`. The flag is `HTB{tr41n3d_REDACTED}`.
+2. The flag is printed as `[+] Flag:`. The flag is `HTB{tr41n3d_t0_th3_h1gh_r04d_6069729eec5d4c320e1539bb81abdcb2}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
 [+] Priority: High
 [+] Flag:
-HTB{tr41n3d_REDACTED}
+HTB{tr41n3d_t0_th3_h1gh_r04d_6069729eec5d4c320e1539bb81abdcb2}
 ```
 
 ## Problems hit
