@@ -10,7 +10,7 @@ difficulty: 2
 
 # web/quantum-market
 
-**Flag:** `HTB{15_REDACTED}`
+**Flag:** `HTB{15_th1s_1nfin1t3_m0n3y_gl1tch??_4cb42f060c026d60fc678fd7a53f92f4}`
 
 **Difficulty:** 🌶️🌶️ (2/5)
 
@@ -33,17 +33,17 @@ The API docs at `/docs/` describe `POST /api/auth/register`, which takes an opti
 ## Steps
 
 1. Run `solve.py`. It registers a referrer, reads the most expensive shop item, and registers referees until the referrer can afford it. Then it buys the item and reads the flag from `my-items`.
-2. The solver prints the flag after `[+] Flag:`. The flag is `HTB{15_REDACTED}`.
+2. The solver prints the flag after `[+] Flag:`. The flag is `HTB{15_th1s_1nfin1t3_m0n3y_gl1tch??_4cb42f060c026d60fc678fd7a53f92f4}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
 [+] Credits after referrals: 1340
 [+] Bought: Market Manipulation Blueprint (1337 credits)
 [+] Flag:
-HTB{15_REDACTED}
+HTB{15_th1s_1nfin1t3_m0n3y_gl1tch??_4cb42f060c026d60fc678fd7a53f92f4}
 ```
 
 ## Problems hit

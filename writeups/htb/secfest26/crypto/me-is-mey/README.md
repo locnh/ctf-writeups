@@ -10,7 +10,7 @@ difficulty: 2
 
 # crypto/me-is-mey
 
-**Flag:** `HTB{sh4256_REDACTED}`
+**Flag:** `HTB{sh4256_bu7_w17h_4_7w157_83f023_c4n_c4u5e_c011i51on5}`
 
 **Difficulty:** 🌶️🌶️ (2/5)
 
@@ -45,14 +45,14 @@ The custom hash is in `private/htb/secfest26/crypto-me-is-mey/src/crypto_me_is_m
 ## Steps
 
 1. Run `solve.py`. It reads the digest from the server banner. For each byte index it looks for a partner byte, and it returns the first forged message whose digest matches the server's. The forged message is sent as hex.
-2. The server replies with the flag, which the solver prints after `[+] Server:`. The flag is `HTB{sh4256_REDACTED}`.
+2. The server replies with the flag, which the solver prints after `[+] Server:`. The flag is `HTB{sh4256_bu7_w17h_4_7w157_83f023_c4n_c4u5e_c011i51on5}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
-[+] Server: Enter your message: HTB{sh4256_REDACTED}
+[+] Server: Enter your message: HTB{sh4256_bu7_w17h_4_7w157_83f023_c4n_c4u5e_c011i51on5}
 ```
 
 ## Problems hit

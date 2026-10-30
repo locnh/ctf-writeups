@@ -10,7 +10,7 @@ difficulty: 2
 
 # ai-ml/stock-signals
 
-**Flag:** `HTB{QRS-Holdings_REDACTED}`
+**Flag:** `HTB{QRS-Holdings_bb102dfc3d52d05ef1aa57991e2d10bd}`
 
 **Difficulty:** 🌶️🌶️ (2/5)
 
@@ -35,15 +35,15 @@ A direct question about the premium signal is refused. A conditional about your 
 ## Steps
 
 1. Run `solve.py`. It sends the hypothetical prompt, waits five seconds, reads the last bot reply, and searches it for `HTB{...}`. If there is no match it retries up to five times, waiting ten seconds between tries.
-2. The flag is printed after `[+] Flag:`. The flag is `HTB{QRS-Holdings_REDACTED}`.
+2. The flag is printed after `[+] Flag:`. The flag is `HTB{QRS-Holdings_bb102dfc3d52d05ef1aa57991e2d10bd}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
 [+] Flag:
-HTB{QRS-Holdings_REDACTED}
+HTB{QRS-Holdings_bb102dfc3d52d05ef1aa57991e2d10bd}
 ```
 
 ## Problems hit

@@ -10,7 +10,7 @@ difficulty: 2
 
 # web/nebula-network
 
-**Flag:** `HTB{un4ut0r1z3d_REDACTED}`
+**Flag:** `HTB{un4ut0r1z3d_4cc3s5_t0_s3nt1n3l_pr1m3_l0g5_32b9dcd4360755d815f7307ea02de8c7}`
 
 **Difficulty:** 🌶️🌶️ (2/5)
 
@@ -32,16 +32,16 @@ That fetch is a server-side request forgery. The server does not check the URL, 
 ## Steps
 
 1. Run `solve.py`. It registers a random user, logs in, and scans localhost ports 1000 to 5000 through the fetch endpoint. It stops at the first flag. Progress is printed to stderr.
-2. The solver reports port `1337` and prints the flag after `[+] Flag:`. The flag is `HTB{un4ut0r1z3d_REDACTED}`.
+2. The solver reports port `1337` and prints the flag after `[+] Flag:`. The flag is `HTB{un4ut0r1z3d_4cc3s5_t0_s3nt1n3l_pr1m3_l0g5_32b9dcd4360755d815f7307ea02de8c7}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
 [+] Open localhost port: 1337
 [+] Flag:
-HTB{un4ut0r1z3d_REDACTED}
+HTB{un4ut0r1z3d_4cc3s5_t0_s3nt1n3l_pr1m3_l0g5_32b9dcd4360755d815f7307ea02de8c7}
 ```
 
 ## Problems hit

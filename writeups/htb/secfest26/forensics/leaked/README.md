@@ -10,7 +10,7 @@ difficulty: 3
 
 # forensics/leaked
 
-**Flag:** `HTB{wh0_REDACTED}`
+**Flag:** `HTB{wh0_l34k3d_th3_cr3ds!!!!?}`
 
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
@@ -37,7 +37,7 @@ The hint names `linux_psaux` and `linux_netstat`. Together they show the suspici
 5. **Find the interface.** `linux_ifconfig` gives `enp0s3` = `192.168.1.5`. The question wrote `en0s3`.
 6. **Find the malware start time.** `linux_pslist` gave 15:22:29, which the server rejected. The correct value comes from the raw `real_start_time` of PID 1521 (105 942 316 172 ns) added to the boot time from `wall_to_monotonic`, which is 15:20:18 UTC. That gives 15:22:03.94, so the answer is `15:22:03`.
 7. **Find the malware hash.** The on-disk binary was not in the file list, so the hash comes from memory. The ELF header of the mapping at `0x400000` has one PT_LOAD segment with `p_filesz = 250`, and every byte after 250 is zero. The MD5 of the first 250 bytes is `853bcc7d0867474ce3ab28ecb9756276`.
-8. **Get the flag.** The server returned `HTB{wh0_REDACTED}` after all eight answers.
+8. **Get the flag.** The server returned `HTB{wh0_l34k3d_th3_cr3ds!!!!?}` after all eight answers.
 
 ## Sample output
 

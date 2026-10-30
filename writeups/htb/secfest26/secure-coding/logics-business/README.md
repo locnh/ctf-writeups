@@ -10,7 +10,7 @@ difficulty: 3
 
 # secure-coding/logics-business
 
-**Flag:** `HTB{FR0NT_4ND_B4CK_TH3_BU51N355_REDACTED}`
+**Flag:** `HTB{FR0NT_4ND_B4CK_TH3_BU51N355_3Y3_D035_533#!#$}`
 
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
@@ -115,13 +115,13 @@ The patch is `artifacts/routes_patched.py`, with md5 `eb77b08661fb1fb9a52226f284
 
 ## Sample output
 
-Output of the documented solve command, with the flag masked. Paste the real output from running it; do not write it by hand.
+Output of the documented solve command, as printed. Paste the real output from running it; do not write it by hand.
 
 ```
 [*] patching blueprints/routes.py (current md5 310a7ba74bc1b3abbecb8c64fc482016)
 [+] saved: {"md5":"eb77b08661fb1fb9a52226f2842fdd92","message":"File saved successfully"}
 [*] restart: 200 {"message":"Server restarted successfully!"}
-[+] Flag: HTB{FR0NT_4ND_B4CK_TH3_BU51N355_REDACTED}
+[+] Flag: HTB{FR0NT_4ND_B4CK_TH3_BU51N355_3Y3_D035_533#!#$}
 ```
 
 ## Problems hit

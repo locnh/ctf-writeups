@@ -10,7 +10,7 @@ difficulty: 1
 
 # web/frontdesk
 
-**Flag:** `HTB{N3v3r_REDACTED}`
+**Flag:** `HTB{N3v3r_Trust_Cl13nt_C00k13s}`
 
 **Difficulty:** 🌶️ (1/5)
 
@@ -49,15 +49,15 @@ Steps tried before the cookie was found, in order:
 ## Steps
 
 1. Run `solve.py` with the instance address. It builds the admin cookie, requests `/admin`, and prints the first `HTB{...}` in the page.
-2. The flag is printed as `[+] Flag:`. The flag is `HTB{N3v3r_REDACTED}`.
+2. The flag is printed as `[+] Flag:`. The flag is `HTB{N3v3r_Trust_Cl13nt_C00k13s}`.
 
 ## Sample output
 
-Output of `python3 solve.py <target_ip> <target_port>` against the live instance, with the flag masked. Pasted from the run, not written by hand.
+Output of `python3 solve.py <target_ip> <target_port>` against the live instance. Pasted from the run, not written by hand.
 
 ```
 [+] Flag:
-HTB{N3v3r_REDACTED}
+HTB{N3v3r_Trust_Cl13nt_C00k13s}
 ```
 
 ## Problems hit
