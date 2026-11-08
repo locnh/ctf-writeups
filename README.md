@@ -37,6 +37,7 @@ Each writeup has a difficulty from 1 to 5, shown as chili peppers (🌶️) in t
 | HTB | challenge | [reactoops](writeups/htb/challenges/web-reactoops/README.md) | web | 🌶️ (1/5) | 🏁 | 🤖 |
 | HTB | challenge | [space-explorer](writeups/htb/challenges/web-space-explorer/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 💪 |
 | HTB | challenge | [trea-portal](writeups/htb/challenges/web-trea-portal/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
+| HTB | challenge | [secure-notes](writeups/htb/challenges/web-secure-notes/README.md) | web | 🌶️🌶️ (2/5) | 🏁 | 🤖 |
 
 ### secfest26 (event closed, flags published)
 
