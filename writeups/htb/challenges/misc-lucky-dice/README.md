@@ -14,7 +14,7 @@ difficulty: 3
 
 **Difficulty:** 🌶️🌶️🌶️ (3/5)
 
-**Solve script:** `artifacts/solve.py`, run as `python3 solve.py <target_ip> <target_port>`.
+**Solve script:** `artifacts/solve.py`, run as `python3 solve.py <target_ip> <target_port>`. It logs each round's dice sums, its answer, and the server's verdict to stderr, and prints only the flag to stdout.
 
 ## Summary
 
@@ -104,10 +104,21 @@ def loop(rnd):
 
 ## Sample output
 
-Output of the documented solve command, with the flag masked.
+Output of the documented solve command, with the flag masked. Progress goes to stderr and the flag to stdout, so the two are shown separately; the middle rounds are elided.
 
 ```
 $ python3 solve.py 154.57.164.78 39660
+[*] connecting to 154.57.164.78:39660
+[*] intro received, starting the game
+[+] round 1/100: 12 players, P1=5, P2=8, P3=8, P4=12, P5=6, P6=8, P7=7, P8=9, P9=7, P10=10, P11=8, P12=10 -> answer 4
+    server verdict for round 1: correct
+[+] round 2/100: 12 players, P1=13, P2=12, P3=10, P4=12, P5=11, P6=16, P7=17, P8=15, P9=11, P10=16, P11=13, P12=16 -> answer 7
+...
+    server verdict for round 99: correct
+[+] round 100/100: 12 players, P1=709, P2=730, P3=703, P4=662, P5=708, P6=703, P7=710, P8=704, P9=706, P10=675, P11=678, P12=680 -> answer 2
+[*] all 100 answers sent, waiting for the flag
+    server verdict for round 100: correct
+[+] flag received
 HTB{r0LL1ng_REDACTED}
 ```
 
