@@ -30,6 +30,25 @@ The flaw is not in the app. It is in the React Server Components deserializer th
 4. **Gadget.** `$B3` makes the parser call `response._formData.get(response._prefix + 3)`. With `_formData.get` resolved to `[].constructor.constructor` (the `Function` constructor), the parser compiles `_prefix` as a function body. The parser treats that function as a thenable and calls it, so the body runs.
 5. **Exfiltrate.** The command runs during deserialization, before any action exists, so the HTTP response is an error. Ordinary errors are reduced to an opaque digest, but a `NEXT_REDIRECT` digest is copied into the `x-action-redirect` response header. Throwing one with the flag in the URL leaks the flag. The read target is `/app/flag.txt`.
 
+### Code analysis
+
+The app code gives nothing to attack. `app/page.tsx` is a static component tree, and a search of `app/` finds no `"use server"`, no `<form>`, no `action=`, and no `searchParams`. The only app-level code reachable from a request is the static page. The bug is in the framework, so the relevant code is in `next/dist`, not in the challenge tree.
+
+Relevant files from the challenge source (`src/web_reactoops/challenge/`):
+
+- `package.json`: `"next": "16.0.6"`, `"react": "^19"`, `"react-dom": "^19"`. The `^19` range is not the vulnerable piece. The lockfile is not in the archive, so the exact bundled version is inferred from `next`.
+- `next.config.mjs`: `output: 'standalone'`, so the server runs from `.next/standalone/server.js` (see the Dockerfile).
+- `Dockerfile` (`node:20-alpine`): copies `challenge/flag.txt` to `/app/flag.txt`, exposes 1337 in the image. The solver used the published port 30179 on the host.
+
+What the exploit relies on, in the framework's deserializer:
+
+- `decodeReply` accepts a multipart Flight body and resolves `$`-references against a `_response` object. Because the attacker controls the whole payload, the attacker can supply `_response` fields (`_prefix`, `_formData`, `_chunks`) that the parser treats as trusted internals.
+- `$3:constructor:constructor` resolves to `Function` through the prototype chain of an array. The parser then calls `_formData.get(_prefix + 3)`, which becomes `Function(_prefix + 3)`. `_prefix` is the JavaScript body, so the body runs with `process` in scope.
+- The action id (`Next-Action: x`) is looked up after decoding. A bogus id still reaches the gadget, which is why the solver does not need a real server action.
+- Errors are sanitized before they reach the response: a normal error becomes an opaque digest, and `NEXT_REDIRECT` keeps its digest and is copied to `x-action-redirect`. The solver throws that digest with the file contents. This is the observed behaviour; the exact sanitizer function inside `next/dist` was not traced.
+
+The solver (`artifacts/solve.py`) is a direct port of the published lachlan2k PoC. Its `build()` function produces the five fields, `read_flag_js()` produces the gadget body, and `main()` reads the redirect header. The solver does not write files or touch `public/`.
+
 ## Steps
 
 1. **Fingerprint the target.**
@@ -67,7 +86,7 @@ HTB{jus7_1n_c4s3_REDACTED}
 - The response is an HTTP 500 even when the exploit works. Code execution happens during `decodeReply`, and there is no matching server action to return a normal result.
 - Error details are sanitized: a normal thrown error becomes an opaque digest and nothing else. The redirect digest is the one value that survives to a response header, which is why it carries the flag.
 - Writing the flag into `public/` or `.next/static/` and requesting it back returns 404. Next builds its static file map at startup, so files created at runtime are not served.
-- The client chunks report React 19.3.0, which is outside the 19.0.0–19.2.0 range in the React advisory. That is misleading: the vulnerable code is the deserializer bundled in Next, not the `react` package installed at the root.
+- The version that matters is the one bundled inside `next`, not the `react` range in `package.json`. The `^19` range does not pin a version, so the bundled deserializer was identified from `next` 16.0.6 instead.
 
 ## Defense
 

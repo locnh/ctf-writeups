@@ -31,6 +31,44 @@ The filter can be bypassed with a duplicate parameter: PHP's `$_GET['url']` keep
 5. **JWT logic bug.** `token_required` rejects only when `not is_admin and username == 'bartender'`; any other username is accepted provided the signature is valid. The leaked key gives a valid signature.
 6. **Flag.** A second scrape points Chrome at `http://127.0.0.1:5000/bartender?token=<forged>`. The JSON response, including the flag from the `secrets` table, is printed to a PDF.
 
+### Code analysis
+
+The source has two services plus a supervisor config. Relevant files under `challenge/`:
+
+- `service/bartender.php`: the frontend. Lines 92–99 read `$_GET['url']`, validate it, then forward the raw query string.
+- `internal/app.py`: the backend. Lines 35–53 (`is_request_safe`), 55–60 (`logify`), 116–130 (`token_required`), and 145–163 (`/generate`).
+- `internal/init_db.py`: seeds `secrets` with the flag.
+
+Frontend check (`bartender.php`):
+
+```php
+$urlunsanitized = $_GET['url'];
+if (!no_way_trick_me($urlunsanitized)) { header('location: /pdfs/no_way.pdf'); exit(); }
+$final_url = $api_scraper.$_SERVER['QUERY_STRING']."&time=".$t;
+```
+
+`no_way_trick_me` checks only the **last** `url` value, rejects `{` and `}` in it, and rejects private IPv4 ranges. It then forwards the whole query string. Flask (`request.args.get('url')`) reads the **first** `url` value. The two components disagree about which URL is being requested.
+
+Backend (`app.py`):
+
+```python
+def is_request_safe(url, min_ttl=40):
+    hostname = urlparse(url).hostname or url
+    try:
+        ipaddress.ip_address(hostname)
+        return True          # any IP literal is accepted
+    except ValueError:
+        pass
+    ...
+def logify(rec):
+    ...
+    log = history_1.format(logify=logify)   # user-stored URL used as a format string
+```
+
+`is_request_safe` never blocks an IP literal, so Chrome can be pointed at `127.0.0.1:5000`. `logify` treats stored history as a format template, which is what lets a stored `{logify.__globals__[app].config[SECRET_KEY]}` read the Flask secret. `token_required` (lines 116–130) only rejects when `not is_admin and username == 'bartender'`, so a valid signature with any other username passes.
+
+The check-URL list in `artifacts/solve.py` is a fallback order, not a set of tested bypasses. Only `https://example.com/` was used on the live instance. The IPv6/hex/decimal variants are untested; they were listed because they are candidate ways to satisfy the PHP check without reaching the frontend.
+
 ## Steps
 
 1. **Confirm the parameter-pollution bypass.** The last `url` is the one PHP validates (a public page returning HTTP 200), the first is what Flask scrapes.
@@ -50,7 +88,7 @@ The filter can be bypassed with a duplicate parameter: PHP's `$_GET['url']` keep
    http://127.0.0.1:5000/logs?x={logify.__globals__[app].config[SECRET_KEY]}
    ```
 
-   The scrape succeeds and the URL is stored in `history`. The braces never reach the PHP filter because they are percent-encoded inside the first `url` value and PHP only inspects the last one.
+   The scrape succeeds and the URL is stored in `history`. The PHP filter rejects `{` or `}` in the URL it validates, and it validates only the last `url` value. The payload sits in the first value, which PHP never inspects, so the braces get through.
 
 3. **Render `/logs` again.** With the payload now in the history table, the page is built by `str.format()` and the field resolves to the Flask `SECRET_KEY`. Chrome prints the page, and the frontend redirects to the PDF.
 
@@ -66,16 +104,15 @@ Output of the documented solve command against the live instance, with the flag 
 $ python3 solve.py 154.57.164.80 37952
 [+] working check url: https://example.com/
 [+] payload url stored in history
-[+] leaked SECRET_KEY: 1f5b2e2f...REDACTED
+[+] leaked SECRET_KEY: 1f5b2e2f_REDACTED
 HTB{ac950a25_REDACTED}
 ```
 
 ## Problems hit
 
 - **Self-inflicted deadlock.** The first attempt used the challenge's own public address (`154.57.164.78:32667`) as the PHP-safe URL. `php -S` has a single worker, so the frontend's validation `curl` called back into itself while its only worker was busy, and the instance stopped answering permanently. The URL used to satisfy the PHP check must point at something other than the frontend itself (a public page, or the backend when it can be reached by an alternate representation).
-- The IPv4-mapped loopback `[::ffff:7f00:1]` is a filter bypass on paper (PHP's `parse_url` keeps the brackets, so `inet_pton` and `filter_var` both fail), but it depends on IPv6 being usable in the container and on the backend binding. A plain public URL was the reliable choice here.
-- PHP emits the header as lowercase `location`. Converting the response headers to a plain `dict` loses `HTTPMessage`'s case-insensitive lookup and the redirect is missed; keep the header object or match case-insensitively.
-- Chrome normalizes URLs, so `check_equiv` compares `driver.current_url` with the requested URL after `unquote`. Percent-encoded braces are fine because both sides are unquoted, but anything Chrome rewrites into a different path or netloc fails the check and no PDF is written.
+- PHP emits the header as lowercase `location`. Converting the response headers to a plain `dict` made the lookup case-sensitive, so the redirect was missed and the solver reported "no usable check url". Keeping the `HTTPMessage` object fixed it.
+- The first attempt's check URL was the challenge's own public address, which caused the deadlock above. The solver now tries `https://example.com/` first; the IP-literal fallbacks are untested.
 
 ## Defense
 
@@ -91,9 +128,5 @@ HTB{ac950a25_REDACTED}
 - When two components parse the same input, the discrepancy between their parsers is the vulnerability. PHP's last-wins and Werkzeug's first-wins turn one parameter into two different URLs.
 - `str.format` is dangerous for the same reason as SSTI: it can traverse attributes and indexes. A log line is not a safe place to put user input.
 - The weak JWT condition alone is not exploitable without the key, but the format-string leak converts a small logic bug into full access to the flag route.
-- A frontend that fetches URLs on the user's behalf can deadlock itself if the checked URL points back at the same single-worker server; always pick an out-of-band checksum target.
-
-## Notes
-
-- The `/pdfs/results-<time>.pdf` filename uses the user-controlled `time` parameter, but the `results-` prefix and `.pdf` suffix bound the traversal, so it was not useful.
-- The keys and flag above come from a disposable instance; the sample output masks both.
+- A frontend that fetches URLs on the user's behalf can deadlock itself if the checked URL points back at the same single-worker server; always pick an out-of-band check target.
+- The `/pdfs/results-<time>.pdf` filename takes a user-controlled `time` value. The `results-` prefix and `.pdf` suffix bound the traversal, so it was not useful here.

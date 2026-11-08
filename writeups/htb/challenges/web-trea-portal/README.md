@@ -31,6 +31,47 @@ TreaPortal is a Fastify app backed by an XML file instead of a database. `src/db
 5. **XPath injection.** The array is stringified with commas when interpolated: `username='x,y' or 1=1 or username=''`. The condition is true for every user, and `xpath.select1` returns the first node in document order, which is `admin`.
 6. **Flag.** The response contains the admin record, including `flag`.
 
+### Code analysis
+
+The relevant code is three small files in `src/web_treaportal/src/`.
+
+`routes/user.ts` (the `GET /api/user/` handler):
+
+```ts
+const { username } = req.query as any
+const tokenPayload = req.user as IJwtPayload
+
+if (typeof username === 'string' && username !== tokenPayload.username) {
+    return res.status(403).send({ err: 'Access denied' })
+}
+const user = await getUserByUsername(username)
+```
+
+The ownership check only runs for a `string`. Fastify's default query parser turns a repeated key into an array, so `username` can reach `getUserByUsername` as `["x", "y"]` and the 403 branch is skipped. The code does not normalize the type or validate it with a schema.
+
+`services/userService.ts` (the XPath guard and query):
+
+```ts
+function looksLikeXPathInjection(input: string): boolean {
+    const blacklist = ["'", ';', 'or', 'and', ')', "(", "/" , "doc"] ;
+    return blacklist.some(pattern => input.includes(pattern)) ;
+}
+
+export async function getUserByUsername(username: any): Promise<IUser | null> {
+    if (looksLikeXPathInjection(username)) throw new Error('bad')
+    const doc = await getDoc()
+    const node = xpath.select1(`//user[username='${username}']`, doc as any)
+    return nodeToUser(node)
+}
+```
+
+Two things combine here:
+
+- `input.includes(pattern)` is called on the value as received. For a string it is a substring test, which catches `'` and `or`. For an array it is `Array.prototype.includes`, an exact-element test. `"x"` and `"y' or 1=1 or username='"` do not equal any blacklisted pattern, so the array passes.
+- The template literal `${username}` stringifies the array with commas, giving `x,y' or 1=1 or username=''`. The comma lands inside the first string literal, so the predicate stays valid XPath and `or 1=1` makes it true for every user.
+
+`db/init.ts` seeds `users.xml` with `admin` as the first `<user>` and puts the flag in its `<flag>` element. `xpath.select1` returns the first match in document order, so the injected predicate returns the admin record. Self-registered users are created by `createUser` with `<flag></flag>`, so the flag is only reachable through the injection.
+
 ## Steps
 
 1. **Confirm the target is up and register an account.**

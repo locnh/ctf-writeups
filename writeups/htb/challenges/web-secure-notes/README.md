@@ -31,6 +31,37 @@ Secure Notes is a small note-taking app: Express 4.18.2, Mongoose 7.2.4, and Mon
 5. **Node gadget.** `net.Socket.prototype.remoteAddress` is `this._getpeername().address`, and `_getpeername` returns `this._peername` when truthy. New sockets inherit the polluted `_peername`, so `remoteAddress` reports `127.0.0.1`.
 6. **Flag.** Request `/flag` on a fresh connection; the loopback check passes.
 
+### Code analysis
+
+The whole app is one file, `challenge/src/app.js`, plus the Mongo and Node setup in the Dockerfile and `conf/supervisord.conf` (`command=node app.js`, `mongod` in the same container). `package-lock.json` pins `express` 4.18.2 and `mongoose` 7.2.4.
+
+The loopback check on `/flag` (line 30):
+
+```js
+app.get('/flag', (req, res) => {
+    const remoteAddress = req.connection.remoteAddress;
+    if (remoteAddress === '127.0.0.1' || remoteAddress === '::1' || remoteAddress === '::ffff:127.0.0.1') {
+        res.send(process.env.FLAG ?? 'HTB{f4k3_fl4g_f0r_t3st1ng}');
+```
+
+The check trusts the socket address, not an HTTP header, so a request that reaches the server from outside can only pass by changing what `remoteAddress` returns. That value comes from Node's `net.Socket` getter, not from the request.
+
+The vulnerable write (line 67-71):
+
+```js
+app.post('/update', async (req, res) => {
+    try {
+        const { noteId } = req.body;
+        await Note.findByIdAndUpdate(noteId, req.body);
+        let result = await Note.find({ _id: noteId });
+```
+
+`req.body` goes straight into the update. It is not whitelisted, so the caller can send MongoDB update operators such as `$rename`. The `Note` schema defines `title` and `content`; the solver's `$rename` moves `content` into a `__proto__` path. Whether the schema filters that path is what the lab run settled: it was accepted and stored.
+
+The second `Note.find` runs on the same document right after the update. That read is where Mongoose 7.2.4 hydrates the stored `__proto__` field (CVE-2023-3696, fixed in 7.3.3).
+
+`/create` checks that `title` and `content` are strings. `/get/:noteId` does no validation and returns the stored document as-is. Neither route inspects the stored shape, so `/update` alone is enough to plant the field.
+
 ## Steps
 
 1. **Create a note whose content is the fake peer address.**
