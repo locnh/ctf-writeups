@@ -30,7 +30,7 @@ The flaw is not in the app. It is in the React Server Components deserializer th
 4. **Gadget.** `$B3` makes the parser call `response._formData.get(response._prefix + 3)`. With `_formData.get` resolved to `[].constructor.constructor` (the `Function` constructor), the parser compiles `_prefix` as a function body. The parser treats that function as a thenable and calls it, so the body runs.
 5. **Exfiltrate.** The command runs during deserialization, before any action exists, so the HTTP response is an error. Ordinary errors are reduced to an opaque digest, but a `NEXT_REDIRECT` digest is copied into the `x-action-redirect` response header. Throwing one with the flag in the URL leaks the flag. The read target is `/app/flag.txt`.
 
-### Code analysis
+## Code analysis
 
 The app code gives nothing to attack. `app/page.tsx` is a static component tree, and a search of `app/` finds no `"use server"`, no `<form>`, no `action=`, and no `searchParams`. The only app-level code reachable from a request is the static page. The bug is in the framework, so the relevant code is in `next/dist`, not in the challenge tree.
 

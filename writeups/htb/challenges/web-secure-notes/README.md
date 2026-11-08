@@ -31,7 +31,7 @@ Secure Notes is a small note-taking app: Express 4.18.2, Mongoose 7.2.4, and Mon
 5. **Node gadget.** `net.Socket.prototype.remoteAddress` is `this._getpeername().address`, and `_getpeername` returns `this._peername` when truthy. New sockets inherit the polluted `_peername`, so `remoteAddress` reports `127.0.0.1`.
 6. **Flag.** Request `/flag` on a fresh connection; the loopback check passes.
 
-### Code analysis
+## Code analysis
 
 The whole app is one file, `challenge/src/app.js`, plus the Mongo and Node setup in the Dockerfile and `conf/supervisord.conf` (`command=node app.js`, `mongod` in the same container). `package-lock.json` pins `express` 4.18.2 and `mongoose` 7.2.4.
 

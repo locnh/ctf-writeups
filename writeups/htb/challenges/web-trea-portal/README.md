@@ -31,7 +31,7 @@ TreaPortal is a Fastify app backed by an XML file instead of a database. `src/db
 5. **XPath injection.** The array is stringified with commas when interpolated: `username='x,y' or 1=1 or username=''`. The condition is true for every user, and `xpath.select1` returns the first node in document order, which is `admin`.
 6. **Flag.** The response contains the admin record, including `flag`.
 
-### Code analysis
+## Code analysis
 
 The relevant code is three small files in `src/web_treaportal/src/`.
 

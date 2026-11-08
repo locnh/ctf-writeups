@@ -31,7 +31,7 @@ The filter can be bypassed with a duplicate parameter: PHP's `$_GET['url']` keep
 5. **JWT logic bug.** `token_required` rejects only when `not is_admin and username == 'bartender'`; any other username is accepted provided the signature is valid. The leaked key gives a valid signature.
 6. **Flag.** A second scrape points Chrome at `http://127.0.0.1:5000/bartender?token=<forged>`. The JSON response, including the flag from the `secrets` table, is printed to a PDF.
 
-### Code analysis
+## Code analysis
 
 The source has two services plus a supervisor config. Relevant files under `challenge/`:
 

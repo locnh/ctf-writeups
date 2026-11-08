@@ -20,6 +20,10 @@ difficulty: <1-5>
 
 ## Attack chain
 
+## Code analysis
+
+Source files and the lines that matter, with short quoted snippets. Explain why each line is vulnerable (or why it is safe), and name the framework or library behaviour the exploit depends on. Write "none (no source provided)" if the challenge ships no code.
+
 ## Steps
 
 ## Sample output
